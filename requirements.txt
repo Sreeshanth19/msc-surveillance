@@ -1,0 +1,19 @@
+# Core
+numpy>=1.24
+opencv-python>=4.8        # use opencv-python-headless on servers without a display
+imutils>=0.5.4
+pyyaml>=6.0
+
+# Person detection + tracking (modern detector replacing darknet YOLOv3)
+ultralytics>=8.1          # pulls in torch; install the CUDA build of torch for GPU
+
+# Mask classifier (reuses the baseline MobileNetV2 model)
+tensorflow>=2.12
+tf-keras>=2.16           # lets modern TF load the Keras-2 baseline model
+
+# Evaluation
+scikit-learn>=1.2
+matplotlib>=3.6
+
+# Tests
+pytest>=7.0

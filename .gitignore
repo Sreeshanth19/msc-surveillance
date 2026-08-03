@@ -1,0 +1,15 @@
+.venv-arm/
+.venv/
+__pycache__/
+*.pyc
+.DS_Store
+archive*.zip
+*.mov
+*.mp4
+data/
+output/
+models/*.model
+models/*.caffemodel
+m/
+mm/
+yolov8n.pt

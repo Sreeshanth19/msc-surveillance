@@ -21,7 +21,7 @@ min_safe_distance_m: 2.0                       # real-world threshold in METRES
 fallback_pixel_distance: 80                    # used only if no homography (baseline mode)
 
 # --- privacy ---
-privacy_blur: false
+privacy_blur: true
 privacy_blocks: 12
 
 # --- runtime ---

@@ -1,0 +1,29 @@
+# Default configuration for the monitoring pipeline.
+# Copy/edit this file and pass it with: python -m scripts.run --config config.yaml
+
+# --- person detection (modern tracked detector; replaces darknet YOLOv3) ---
+detector_model: yolov8n.pt      # try yolov8s.pt / yolo11s.pt for higher accuracy
+detector_conf: 0.30
+detector_iou: 0.50
+person_class_id: 0              # COCO 'person'
+tracker_cfg: bytetrack.yaml     # built-in multi-object tracker
+
+# --- face + mask classification (reuses the baseline trained assets) ---
+face_proto: models/deploy.prototxt
+face_weights: models/res10_300x300_ssd_iter_140000.caffemodel
+mask_model: models/mask_detector.model
+face_conf: 0.50
+mask_input_size: 224
+
+# --- distance estimation (metric, via homography) ---
+homography_file: calibration/homography.npy   # produced by scripts/calibrate.py
+min_safe_distance_m: 2.0                       # real-world threshold in METRES
+fallback_pixel_distance: 80                    # used only if no homography (baseline mode)
+
+# --- privacy ---
+privacy_blur: false
+privacy_blocks: 12
+
+# --- runtime ---
+process_width: 700
+use_gpu: true

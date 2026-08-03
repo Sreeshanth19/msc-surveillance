@@ -62,7 +62,7 @@ class PersonDetector:
         self.iou = iou
         self.person_class_id = person_class_id
         self.tracker_cfg = tracker_cfg
-        self.device = "cuda" if use_gpu else "cpu"
+        self.device = "cuda" if (use_gpu and __import__("torch").cuda.is_available()) else "cpu"
 
     def track(self, frame: np.ndarray) -> List[Track]:
         """Detect and track people in a single frame."""

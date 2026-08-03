@@ -24,28 +24,25 @@ distance flags are unreliable. Calibrating to the ground plane fixes this and is
 the main contribution to defend.
 
 ## Project structure
-
-```
 msc_surveillance/
 ├── src/
-│   ├── config.py          # one typed Config for every parameter
-│   ├── detection.py       # PersonDetector: modern detector + tracking
-│   ├── distance.py        # DistanceEstimator: metric (homography) + pixel fallback
-│   ├── calibration.py     # fit the ground-plane homography
-│   ├── mask_classifier.py # face detection + mask classification (reuses baseline model)
-│   ├── privacy.py         # face mosaicking
-│   ├── visualize.py       # overlays + HUD
-│   └── pipeline.py        # end-to-end orchestration + per-track stats
+│ ├── config.py # one typed Config for every parameter
+│ ├── detection.py # PersonDetector: modern detector + tracking
+│ ├── distance.py # DistanceEstimator: metric (homography) + pixel fallback
+│ ├── calibration.py # fit the ground-plane homography
+│ ├── mask_classifier.py # face detection + mask classification (reuses baseline model)
+│ ├── privacy.py # face mosaicking
+│ ├── visualize.py # overlays + HUD
+│ └── pipeline.py # end-to-end orchestration + per-track stats
 ├── scripts/
-│   ├── run.py             # run on webcam / video / stream
-│   ├── calibrate.py       # produce calibration/homography.npy
-│   ├── evaluate_mask.py   # precision/recall/F1 + confusion matrix
-│   └── benchmark_fps.py   # FPS / latency numbers
+│ ├── run.py # run on webcam / video / stream
+│ ├── calibrate.py # produce calibration/homography.npy
+│ ├── evaluate_mask.py # precision/recall/F1 + confusion matrix
+│ └── benchmark_fps.py # FPS / latency numbers
 ├── tests/test_distance.py # geometry unit tests (pytest)
-├── config.yaml            # documented defaults
+├── config.yaml # documented defaults
 ├── requirements.txt
-└── setup_models.sh        # copy reused assets into models/
-```
+└── setup_models.sh # copy reused assets into models/
 
 ## Quick start
 
@@ -83,6 +80,21 @@ comparison** (pixel vs. metric) for the evaluation chapter.
 - **Chapter 5 (testing/validation):** `evaluate_mask.py`, `benchmark_fps.py`,
   `tests/`, and the pixel-vs-metric ablation.
 
+## Status
+
+**Done:**
+- Modular pipeline implemented: detection, tracking, homography-based metric distance, mask classification, privacy mosaicking, four-state risk model
+- Mask classifier evaluated in-distribution (96.25%, 613-image holdout) and cross-dataset on a second, independent mask dataset (98.57%, 3,000 images) — the training-data-leakage gap this section used to flag
+- Five-architecture comparison (MobileNetV2, ResNet50, VGG16, InceptionV3, EfficientNetB0), all exceeding 99% accuracy; EfficientNetB0 identified as the strongest accuracy/efficiency trade-off for deployment
+- Homography geometry validated by unit test (`tests/test_distance.py`)
+- Version control and this GitHub repository
+
+**Still open:**
+- BAFMD (bias-aware, demographically diverse) cross-dataset evaluation — access requested, not yet granted
+- The calibration used for the integrated demo footage was estimated rather than physically measured; distances from that specific run are approximate, though the underlying geometric method is verified correct
+- Frame rate / latency not yet benchmarked on stated hardware
+- Dissertation write-up in progress
+
 ## Cross-dataset evaluation (BAFMD)
 To test generalisation on a demographically diverse set (the honest "fresh exam"):
 1. Request BAFMD: https://github.com/Alpkant/BAFMD (fill the form, await approval).
@@ -94,35 +106,8 @@ To test generalisation on a demographically diverse set (the honest "fresh exam"
 The gap between this number and the in-dataset number is a reportable finding.
 
 ## Train your own mask model
-Stronger provenance than reusing a pre-trained model — train on a dataset you chose:
-```
-python -m scripts.train_mask --dataset /path/to/data --out models/my_mask_model.keras --epochs 15
-```
-Streams images from disk (memory-safe). Then evaluate and compare against the baseline model
-with `scripts/evaluate_mask.py`. Document the dataset, split, and hyperparameters in your report.
+Stronger provenance than reusing a pre-trained model — train on a dataset you chose:pbpaste > README.md
+git add README.md
+git commit -m "Update README status"
+git push
 
-## Compare multiple models (comparative study)
-Train and evaluate several backbones on the same data, like-for-like:
-```
-python -m scripts.compare_models --dataset /path/to/data \
-    --models mobilenetv2,resnet50,vgg16,inceptionv3,efficientnetb0 --epochs 12 \
-    --out output/model_comparison
-```
-Outputs a comparison table (accuracy, precision, recall, F1, inference ms/image, params)
-plus a bar chart. Needs a GPU and internet (ImageNet weights) on first run.
-
-## What is still yours to do
-This is a working scaffold, not a finished dissertation. You need to: run it on
-your GPU, calibrate against your own footage, run the evaluation (ideally on a
-*second* mask dataset to avoid the training-data leakage flagged in
-`evaluate_mask.py`), tune thresholds, and write up the analysis and limitations.
-
-## Attribution
-Built as an independent re-implementation that reuses two MIT-licensed projects,
-which **must be cited** in the dissertation:
-- Mask classifier + dataset: *chandrikadeb7/Face-Mask-Detection* (MIT).
-- Social-distancing baseline structure: *saimj7/Social-Distancing-Detection-in-Real-Time* (MIT).
-
-Person detection/tracking uses Ultralytics YOLO + ByteTrack; mask classification
-uses TensorFlow/Keras; image handling uses OpenCV. Cite these libraries too.
-```

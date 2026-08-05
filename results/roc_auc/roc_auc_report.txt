@@ -1,0 +1,3 @@
+Evaluation mode: random sample of 3000 images (seed=42)
+Images scored: 3000
+AUC: 0.9983

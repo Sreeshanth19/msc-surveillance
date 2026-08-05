@@ -36,7 +36,7 @@ class Config:
     fallback_pixel_distance: int = 80
 
     # ---- privacy ----
-    privacy_blur: bool = False           # pixelate faces in the output stream
+    privacy_blur: bool = True           # pixelate faces in the output stream
     privacy_blocks: int = 12             # mosaic granularity (smaller = more anonymised)
 
     # ---- runtime ----

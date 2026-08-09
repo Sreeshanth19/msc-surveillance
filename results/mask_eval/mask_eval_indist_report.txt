@@ -1,0 +1,12 @@
+Evaluation mode: held-out 15% (613 images)
+Images scored: 613
+
+              precision    recall  f1-score   support
+
+without_mask     0.9552    1.0000    0.9771       277
+   with_mask     1.0000    0.9613    0.9803       336
+
+    accuracy                         0.9788       613
+   macro avg     0.9776    0.9807    0.9787       613
+weighted avg     0.9797    0.9788    0.9788       613
+

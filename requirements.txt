@@ -1,6 +1,6 @@
 # Core
 numpy>=1.24
-opencv-python>=4.8        # use opencv-python-headless on servers without a display
+opencv-python>=4.8,<5.0        # use opencv-python-headless on servers without a display
 imutils>=0.5.4
 pyyaml>=6.0
 

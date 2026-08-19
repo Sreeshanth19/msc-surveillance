@@ -86,8 +86,8 @@ comparison** (pixel vs. metric) for the evaluation chapter.
 ## Status
 
 **Done:**
-- Modular pipeline implemented: detection, tracking, homography-based metric distance, mask classification, privacy mosaicking, four-state risk model
-- Mask classifier evaluated in-distribution (96.25%, 613-image holdout) and cross-dataset on a second, independent mask dataset (98.57%, 3,000 images) — the training-data-leakage gap this section used to flag
+- Modular pipeline implemented: detection, tracking, homography-based metric distance, mask classification, privacy mosaicking, five-state risk model
+- Mask classifier evaluated in-distribution (97.88%, 613-image holdout) and cross-dataset on a second, independent mask dataset (98.34%, 3,021 images) — the training-data-leakage gap this section used to flag
 - Five-architecture comparison (MobileNetV2, ResNet50, VGG16, InceptionV3, EfficientNetB0), all exceeding 99% accuracy; EfficientNetB0 identified as the strongest accuracy/efficiency trade-off for deployment
 - Homography geometry validated by unit test (`tests/test_distance.py`)
 - Version control and this GitHub repository

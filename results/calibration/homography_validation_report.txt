@@ -1,0 +1,13 @@
+Homography validation against an independent physical reference
+Date: 2026-08-19 22:10:57
+Source video: mm/calib.mp4 (frame 15)
+Homography: calibration/homography_a4.npy
+
+Reference image points: (85, 439) -> (1473, 444)
+True length:      1.0000 m
+Measured length:  1.0682 m
+Absolute error:   +0.0682 m
+Relative error:   +6.82 %
+
+Note: the reference measured here was not used to compute the homography,
+so this is an independent check rather than a restatement of the calibration.

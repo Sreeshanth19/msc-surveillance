@@ -13,3 +13,5 @@ models/*.caffemodel
 m/
 mm/
 yolov8n.pt
+.venv-gui/
+*.save

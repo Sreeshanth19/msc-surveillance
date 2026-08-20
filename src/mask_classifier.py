@@ -10,6 +10,22 @@ retraining and a fairer cross-dataset evaluation are handled separately by
 TensorFlow is imported lazily so the pipeline's geometry/detection parts and the
 unit tests do not require it.
 """
+# ---------------------------------------------------------------------------
+# ATTRIBUTION
+# Adapted from chandrikadeb7/Face-Mask-Detection
+#   MIT License, Copyright (c) 2021 chandrikadeb7
+#   https://github.com/chandrikadeb7/Face-Mask-Detection
+# Reused: the face-detection and mask-classification procedure (300x300 SSD
+#   blob with (104, 177, 123) mean subtraction, the detection-confidence loop,
+#   and the 224x224 MobileNetV2 crop pipeline); the trained mask_detector.model
+#   and res10 face-detector assets, used unmodified.
+# Written by the author: the MaskClassifier class structure, lazy model
+#   loading, typed MaskResult records, configurable thresholds, and the
+#   TF_USE_LEGACY_KERAS handling for Keras 3 compatibility.
+# The face-detector assets originate from OpenCV samples/dnn/face_detector.
+# See THIRD_PARTY_LICENSES.md.
+# ---------------------------------------------------------------------------
+
 from __future__ import annotations
 
 import os

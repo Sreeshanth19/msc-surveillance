@@ -1,4 +1,6 @@
 Frames: 200
-Mean latency: 129.6 ms/frame
-Mean FPS:     7.72
-p95 latency:  112.9 ms
+Mean latency: 113.1 ms/frame
+Mean FPS:     8.84
+Median latency: 112.3 ms/frame
+Median FPS:     8.90
+p95 latency:  122.9 ms

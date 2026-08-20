@@ -26,6 +26,8 @@ def main() -> None:
     ap.add_argument("--frames", type=int, default=200)
     ap.add_argument("--no-mask", action="store_true")
     ap.add_argument("--cpu", action="store_true")
+    ap.add_argument("--detector",
+                    help="override the detector weights, e.g. yolov8s.pt")
     ap.add_argument("--warmup", type=int, default=5)
     args = ap.parse_args()
 
@@ -33,6 +35,9 @@ def main() -> None:
     cfg = Config().resolve(ROOT)
     if args.cpu:
         cfg.use_gpu = False
+    if args.detector:
+        cfg.detector_model = args.detector
+    print(f"detector: {cfg.detector_model}  gpu: {cfg.use_gpu}")
     pipe = MonitoringPipeline(cfg, enable_mask=not args.no_mask)
 
     cap = cv2.VideoCapture(int(args.source) if str(args.source).isdigit() else args.source)

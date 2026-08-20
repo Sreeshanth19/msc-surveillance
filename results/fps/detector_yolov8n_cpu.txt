@@ -1,0 +1,7 @@
+detector: yolov8n.pt  gpu: False
+Frames: 200
+Mean latency: 109.6 ms/frame
+Mean FPS:     9.12
+Median latency: 109.2 ms/frame
+Median FPS:     9.15
+p95 latency:  117.7 ms

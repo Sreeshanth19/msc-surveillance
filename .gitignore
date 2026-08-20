@@ -15,3 +15,4 @@ mm/
 yolov8n.pt
 .venv-gui/
 *.save
+yolo*.pt

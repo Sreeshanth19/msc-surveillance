@@ -1,0 +1,12 @@
+Evaluation mode: ALL images (training performance — optimistic); 3761 duplicate images excluded via --exclude-from
+Images scored: 3792
+
+              precision    recall  f1-score   support
+
+without_mask     0.9952    0.9770    0.9860      1917
+   with_mask     0.9770    0.9952    0.9860      1875
+
+    accuracy                         0.9860      3792
+   macro avg     0.9861    0.9861    0.9860      3792
+weighted avg     0.9862    0.9860    0.9860      3792
+

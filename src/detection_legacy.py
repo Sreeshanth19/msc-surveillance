@@ -11,6 +11,23 @@ minimal greedy nearest-centroid tracker so IDs are still reasonably stable. It
 is intentionally the weaker option; it exists so the pipeline is runnable
 anywhere and so you can do a like-for-like detector comparison in evaluation.
 """
+# ---------------------------------------------------------------------------
+# ATTRIBUTION
+# Uses the YOLOv3 configuration and weights bundled with
+#   saimj7/Social-Distancing-Detection-in-Real-Time
+#   MIT License, Copyright (c) 2020 Sai Subhakar T
+#   https://github.com/saimj7/Social-Distancing-Detection-in-Real-Time
+# The YOLOv3 model itself originates from J. Redmon's Darknet project.
+# Reused: the Darknet YOLOv3 person-detection approach and its model assets.
+#   The inference body of track() - blobFromImage preprocessing, the
+#   class-score confidence loop, centre-to-corner box conversion, and
+#   NMSBoxes filtering - follows the standard OpenCV Darknet pattern as
+#   used by the baseline project.
+# Written by the author: the LegacyPersonDetector class, the Track-compatible
+#   interface, and the greedy nearest-centroid tracker.
+# See THIRD_PARTY_LICENSES.md.
+# ---------------------------------------------------------------------------
+
 from __future__ import annotations
 
 from pathlib import Path

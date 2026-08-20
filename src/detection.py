@@ -62,7 +62,17 @@ class PersonDetector:
         self.iou = iou
         self.person_class_id = person_class_id
         self.tracker_cfg = tracker_cfg
-        self.device = "cuda" if (use_gpu and __import__("torch").cuda.is_available()) else "cpu"
+        # Select the best available backend: CUDA, then Apple Silicon MPS,
+        # then CPU. Apple Silicon has no CUDA, so without the MPS branch this
+        # always fell back to CPU on the target hardware.
+        self.device = "cpu"
+        if use_gpu:
+            torch = __import__("torch")
+            if torch.cuda.is_available():
+                self.device = "cuda"
+            elif getattr(torch.backends, "mps", None) is not None \
+                    and torch.backends.mps.is_available():
+                self.device = "mps"
 
     def track(self, frame: np.ndarray) -> List[Track]:
         """Detect and track people in a single frame."""

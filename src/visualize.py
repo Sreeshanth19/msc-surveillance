@@ -1,4 +1,4 @@
-"""Overlays for the four-state risk model.
+"""Overlays for the five-state risk model.
 
 Per-person status combines mask + distance:
     GREEN  Safe                 (mask worn  + safe distance)

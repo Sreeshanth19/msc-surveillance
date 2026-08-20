@@ -116,7 +116,9 @@ class App:
     # ---------------- sources ----------------
     def open_video(self):
         path = filedialog.askopenfilename(filetypes=VIDEO_TYPES)
+        print("DEBUG: path =", repr(path))
         if not path:
+            print("DEBUG: empty path, returning")
             return
         self.stop()
         self.is_live = False
@@ -127,10 +129,14 @@ class App:
         if not ok:
             messagebox.showerror("Error", "Could not read this video file.")
             return
+        print("DEBUG: read ok, frame shape", frame.shape)
         self.last_raw = self._resize(frame)
+        print("DEBUG: resized ok")
         self.canvas.delete("calibdot")
         self._draw(self.last_raw)
+        print("DEBUG: drew ok")
         self._enable_controls()
+        print("DEBUG: controls enabled")
         self.set_status(f"Loaded {Path(path).name}. Press Play. (Calibrate for metres.)")
 
     def start_live(self):
@@ -151,10 +157,14 @@ class App:
         self.is_live = True
         self.source = 0
         self.live_needs_pixel = True
+        print("DEBUG: read ok, frame shape", frame.shape)
         self.last_raw = self._resize(frame)
+        print("DEBUG: resized ok")
         self.canvas.delete("calibdot")
         self._draw(self.last_raw)
+        print("DEBUG: drew ok")
         self._enable_controls()
+        print("DEBUG: controls enabled")
         self.set_status("Live camera ready. Press Play. "
                         "(Distance shown in pixels; use Calibrate for metres.)")
 

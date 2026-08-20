@@ -1,0 +1,7 @@
+detector: yolo11s.pt  gpu: False
+Frames: 200
+Mean latency: 125.9 ms/frame
+Mean FPS:     7.94
+Median latency: 125.7 ms/frame
+Median FPS:     7.96
+p95 latency:  132.9 ms

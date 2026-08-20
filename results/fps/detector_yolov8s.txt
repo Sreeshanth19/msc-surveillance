@@ -1,0 +1,8 @@
+detector: yolov8s.pt  gpu: True
+[KDownloading https://github.com/ultralytics/assets/releases/download/v8.4.0/yolov8s.pt to 'yolov8s.pt': 9% ━─────────── 2.0/21.5MB 20.2MB/s 0.1s<1.0s[KDownloading https://github.com/ultralytics/assets/releases/download/v8.4.0/yolov8s.pt to 'yolov8s.pt': 19% ━━────────── 4.2/21.5MB 21.4MB/s 0.2s<0.8s[KDownloading https://github.com/ultralytics/assets/releases/download/v8.4.0/yolov8s.pt to 'yolov8s.pt': 29% ━━━╸──────── 6.4/21.5MB 15.2MB/s 0.3s<1.0s[KDownloading https://github.com/ultralytics/assets/releases/download/v8.4.0/yolov8s.pt to 'yolov8s.pt': 56% ━━━━━━╸───── 12.2/21.5MB 58.4MB/s 0.4s<0.2s[KDownloading https://github.com/ultralytics/assets/releases/download/v8.4.0/yolov8s.pt to 'yolov8s.pt': 68% ━━━━━━━━──── 14.8/21.5MB 21.3MB/s 0.6s<0.3s[KDownloading https://github.com/ultralytics/assets/releases/download/v8.4.0/yolov8s.pt to 'yolov8s.pt': 89% ━━━━━━━━━━╸─ 19.2/21.5MB 44.7MB/s 0.7s<0.1s[KDownloading https://github.com/ultralytics/assets/releases/download/v8.4.0/yolov8s.pt to 'yolov8s.pt': 100% ━━━━━━━━━━━━ 21.5MB 28.8MB/s 0.7s
+Frames: 200
+Mean latency: 161.3 ms/frame
+Mean FPS:     6.20
+Median latency: 148.5 ms/frame
+Median FPS:     6.74
+p95 latency:  215.1 ms

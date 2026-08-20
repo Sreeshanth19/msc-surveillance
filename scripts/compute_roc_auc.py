@@ -9,7 +9,7 @@ this script scores the model's raw probability output rather than just the hard
 METHODOLOGICAL NOTE (same caveat as evaluate_mask.py applies here)
 --------------------------------------------------------------------
 Point --dataset at an INDEPENDENT dataset the model never trained on for an
-honest AUC — e.g. the same cross-dataset evaluation that produced the 98.57%
+honest AUC — e.g. the same cross-dataset evaluation that produced the 98.34%
 accuracy figure. Scoring on the training dataset itself will look optimistic.
 
     python -m scripts.compute_roc_auc --dataset /path/to/cross_dataset --sample 3000 \

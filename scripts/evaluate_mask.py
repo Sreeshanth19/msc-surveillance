@@ -53,6 +53,9 @@ def main() -> None:
     ap.add_argument("--holdout", type=float, default=0.0,
                     help="evaluate only this random fraction (0 = all images)")
     ap.add_argument("--seed", type=int, default=42)
+    ap.add_argument("--exclude-from",
+                    help="drop images that also appear in this dataset "
+                         "(byte-identical), so the evaluation set is genuinely unseen")
     ap.add_argument("--out", default="output/mask_eval")
     args = ap.parse_args()
 
@@ -69,6 +72,18 @@ def main() -> None:
     model = load_model(model_path)
 
     items = _load_paths(Path(args.dataset))
+
+    excluded = 0
+    if args.exclude_from:
+        import hashlib
+        seen = {hashlib.md5(q.read_bytes()).hexdigest()
+                for q, _ in _load_paths(Path(args.exclude_from))}
+        before = len(items)
+        items = [(q, lab) for q, lab in items
+                 if hashlib.md5(q.read_bytes()).hexdigest() not in seen]
+        excluded = before - len(items)
+        print(f"Excluded {excluded} images also present in {args.exclude_from}")
+
     rng = np.random.default_rng(args.seed)
     rng.shuffle(items)
     mode = "ALL images (training performance — optimistic)"
@@ -76,6 +91,8 @@ def main() -> None:
         k = int(len(items) * args.holdout)
         items = items[:k]
         mode = f"held-out {args.holdout:.0%} ({len(items)} images)"
+    if excluded:
+        mode += f"; {excluded} duplicate images excluded via --exclude-from"
 
     X, y_true = [], []
     for path, label in items:

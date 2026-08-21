@@ -1,0 +1,224 @@
+Reproducibility: seeded, seed=42
+
+======================================================
+  mobilenetv2
+======================================================
+Found 3274 images belonging to 2 classes.
+Found 818 images belonging to 2 classes.
+WARNING:tensorflow:`input_shape` is undefined or non-square, or `rows` is not in [96, 128, 160, 192, 224]. Weights for input shape (224, 224) will be loaded as the default.
+2026-08-21 12:52:06.719395: W tensorflow/core/common_runtime/gpu/gpu_bfc_allocator.cc:47] Overriding orig_value setting because the TF_FORCE_GPU_ALLOW_GROWTH environment variable is set. Original config value was 0.
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1787316726.721058    1801 gpu_device.cc:2020] Created device /job:localhost/replica:0/task:0/device:GPU:0 with 13757 MB memory:  -> device: 0, name: Tesla T4, pci bus id: 0000:00:04.0, compute capability: 7.5
+Downloading data from https://storage.googleapis.com/tensorflow/keras-applications/mobilenet_v2/mobilenet_v2_weights_tf_dim_ordering_tf_kernels_1.0_224_no_top.h5
+   8192/9406464 [..............................] - ETA: 0s9406464/9406464 [==============================] - 0s 0us/step
+Epoch 1/12
+I0000 00:00:1787316736.501479    1848 device_compiler.h:196] Compiled cluster using XLA!  This line is logged at most once for the lifetime of the process.
+/usr/local/lib/python3.12/dist-packages/PIL/Image.py:1047: UserWarning: Palette images with Transparency expressed in bytes should be converted to RGBA images
+  warnings.warn(
+103/103 - 58s - loss: 0.3357 - accuracy: 0.8598 - val_loss: 0.0735 - val_accuracy: 0.9804 - 58s/epoch - 562ms/step
+Epoch 2/12
+103/103 - 51s - loss: 0.1091 - accuracy: 0.9609 - val_loss: 0.0583 - val_accuracy: 0.9829 - 51s/epoch - 493ms/step
+Epoch 3/12
+103/103 - 49s - loss: 0.0860 - accuracy: 0.9725 - val_loss: 0.0590 - val_accuracy: 0.9829 - 49s/epoch - 478ms/step
+Epoch 4/12
+103/103 - 51s - loss: 0.0651 - accuracy: 0.9798 - val_loss: 0.0660 - val_accuracy: 0.9780 - 51s/epoch - 496ms/step
+Epoch 5/12
+103/103 - 49s - loss: 0.0587 - accuracy: 0.9801 - val_loss: 0.0711 - val_accuracy: 0.9756 - 49s/epoch - 477ms/step
+Epoch 6/12
+103/103 - 50s - loss: 0.0514 - accuracy: 0.9820 - val_loss: 0.0597 - val_accuracy: 0.9817 - 50s/epoch - 482ms/step
+Epoch 7/12
+103/103 - 50s - loss: 0.0397 - accuracy: 0.9869 - val_loss: 0.0585 - val_accuracy: 0.9817 - 50s/epoch - 483ms/step
+Epoch 8/12
+103/103 - 50s - loss: 0.0398 - accuracy: 0.9850 - val_loss: 0.0639 - val_accuracy: 0.9792 - 50s/epoch - 483ms/step
+Epoch 9/12
+103/103 - 50s - loss: 0.0429 - accuracy: 0.9859 - val_loss: 0.0405 - val_accuracy: 0.9866 - 50s/epoch - 483ms/step
+Epoch 10/12
+103/103 - 49s - loss: 0.0451 - accuracy: 0.9832 - val_loss: 0.0670 - val_accuracy: 0.9768 - 49s/epoch - 474ms/step
+Epoch 11/12
+103/103 - 52s - loss: 0.0355 - accuracy: 0.9890 - val_loss: 0.0657 - val_accuracy: 0.9780 - 52s/epoch - 501ms/step
+Epoch 12/12
+103/103 - 49s - loss: 0.0331 - accuracy: 0.9890 - val_loss: 0.0553 - val_accuracy: 0.9804 - 49s/epoch - 479ms/step
+  extra evaluation 'bafmd' <- /content/ds/data/bafmd_crops
+Found 1682 images belonging to 2 classes.
+    bafmd: n=1682  acc=0.8603  f1=0.6957  with_mask recall=0.9911  without_mask precision=0.8974
+  mobilenetv2: acc=0.9804  f1=0.9803  3.8 +/- 0.3 ms/img
+
+======================================================
+  resnet50
+======================================================
+Found 3274 images belonging to 2 classes.
+Found 818 images belonging to 2 classes.
+Downloading data from https://storage.googleapis.com/tensorflow/keras-applications/resnet/resnet50_weights_tf_dim_ordering_tf_kernels_notop.h5
+    8192/94765736 [..............................] - ETA: 0s 4202496/94765736 [>.............................] - ETA: 1s 6389760/94765736 [=>............................] - ETA: 1s20201472/94765736 [=====>........................] - ETA: 0s33685504/94765736 [=========>....................] - ETA: 0s47849472/94765736 [==============>...............] - ETA: 0s61005824/94765736 [==================>...........] - ETA: 0s65241088/94765736 [===================>..........] - ETA: 0s72884224/94765736 [======================>.......] - ETA: 0s87728128/94765736 [==========================>...] - ETA: 0s94765736/94765736 [==============================] - 1s 0us/step
+Epoch 1/12
+/usr/local/lib/python3.12/dist-packages/PIL/Image.py:1047: UserWarning: Palette images with Transparency expressed in bytes should be converted to RGBA images
+  warnings.warn(
+103/103 - 60s - loss: 0.2456 - accuracy: 0.9010 - val_loss: 0.0231 - val_accuracy: 0.9939 - 60s/epoch - 583ms/step
+Epoch 2/12
+103/103 - 55s - loss: 0.0738 - accuracy: 0.9734 - val_loss: 0.0206 - val_accuracy: 0.9914 - 55s/epoch - 534ms/step
+Epoch 3/12
+103/103 - 57s - loss: 0.0414 - accuracy: 0.9847 - val_loss: 0.0163 - val_accuracy: 0.9939 - 57s/epoch - 552ms/step
+Epoch 4/12
+103/103 - 55s - loss: 0.0356 - accuracy: 0.9881 - val_loss: 0.0217 - val_accuracy: 0.9927 - 55s/epoch - 535ms/step
+Epoch 5/12
+103/103 - 53s - loss: 0.0307 - accuracy: 0.9908 - val_loss: 0.0184 - val_accuracy: 0.9939 - 53s/epoch - 511ms/step
+Epoch 6/12
+103/103 - 55s - loss: 0.0251 - accuracy: 0.9914 - val_loss: 0.0161 - val_accuracy: 0.9939 - 55s/epoch - 535ms/step
+Epoch 7/12
+103/103 - 55s - loss: 0.0221 - accuracy: 0.9914 - val_loss: 0.0130 - val_accuracy: 0.9951 - 55s/epoch - 537ms/step
+Epoch 8/12
+103/103 - 53s - loss: 0.0218 - accuracy: 0.9930 - val_loss: 0.0185 - val_accuracy: 0.9939 - 53s/epoch - 515ms/step
+Epoch 9/12
+103/103 - 56s - loss: 0.0189 - accuracy: 0.9942 - val_loss: 0.0157 - val_accuracy: 0.9951 - 56s/epoch - 543ms/step
+Epoch 10/12
+103/103 - 55s - loss: 0.0185 - accuracy: 0.9942 - val_loss: 0.0174 - val_accuracy: 0.9939 - 55s/epoch - 532ms/step
+Epoch 11/12
+103/103 - 53s - loss: 0.0148 - accuracy: 0.9963 - val_loss: 0.0180 - val_accuracy: 0.9927 - 53s/epoch - 513ms/step
+Epoch 12/12
+103/103 - 53s - loss: 0.0194 - accuracy: 0.9951 - val_loss: 0.0222 - val_accuracy: 0.9927 - 53s/epoch - 513ms/step
+  extra evaluation 'bafmd' <- /content/ds/data/bafmd_crops
+Found 1682 images belonging to 2 classes.
+    bafmd: n=1682  acc=0.9203  f1=0.8569  with_mask recall=0.9852  without_mask precision=0.9145
+  resnet50: acc=0.9927  f1=0.9926  5.3 +/- 0.6 ms/img
+
+======================================================
+  vgg16
+======================================================
+Found 3274 images belonging to 2 classes.
+Found 818 images belonging to 2 classes.
+Downloading data from https://storage.googleapis.com/tensorflow/keras-applications/vgg16/vgg16_weights_tf_dim_ordering_tf_kernels_notop.h5
+    8192/58889256 [..............................] - ETA: 0s 3940352/58889256 [=>............................] - ETA: 1s16842752/58889256 [=======>......................] - ETA: 0s28491776/58889256 [=============>................] - ETA: 0s42655744/58889256 [====================>.........] - ETA: 0s55877632/58889256 [===========================>..] - ETA: 0s58889256/58889256 [==============================] - 0s 0us/step
+Epoch 1/12
+/usr/local/lib/python3.12/dist-packages/PIL/Image.py:1047: UserWarning: Palette images with Transparency expressed in bytes should be converted to RGBA images
+  warnings.warn(
+103/103 - 66s - loss: 1.2283 - accuracy: 0.7031 - val_loss: 0.0762 - val_accuracy: 0.9694 - 66s/epoch - 637ms/step
+Epoch 2/12
+103/103 - 58s - loss: 0.4218 - accuracy: 0.8742 - val_loss: 0.0533 - val_accuracy: 0.9841 - 58s/epoch - 565ms/step
+Epoch 3/12
+103/103 - 58s - loss: 0.2397 - accuracy: 0.9212 - val_loss: 0.0477 - val_accuracy: 0.9890 - 58s/epoch - 560ms/step
+Epoch 4/12
+103/103 - 58s - loss: 0.1990 - accuracy: 0.9362 - val_loss: 0.0495 - val_accuracy: 0.9902 - 58s/epoch - 562ms/step
+Epoch 5/12
+103/103 - 57s - loss: 0.1473 - accuracy: 0.9478 - val_loss: 0.0451 - val_accuracy: 0.9914 - 57s/epoch - 552ms/step
+Epoch 6/12
+103/103 - 58s - loss: 0.1202 - accuracy: 0.9615 - val_loss: 0.0470 - val_accuracy: 0.9902 - 58s/epoch - 561ms/step
+Epoch 7/12
+103/103 - 56s - loss: 0.0912 - accuracy: 0.9688 - val_loss: 0.0495 - val_accuracy: 0.9890 - 56s/epoch - 543ms/step
+Epoch 8/12
+103/103 - 57s - loss: 0.0987 - accuracy: 0.9682 - val_loss: 0.0476 - val_accuracy: 0.9890 - 57s/epoch - 553ms/step
+Epoch 9/12
+103/103 - 57s - loss: 0.0664 - accuracy: 0.9792 - val_loss: 0.0423 - val_accuracy: 0.9890 - 57s/epoch - 554ms/step
+Epoch 10/12
+103/103 - 57s - loss: 0.0782 - accuracy: 0.9713 - val_loss: 0.0507 - val_accuracy: 0.9890 - 57s/epoch - 555ms/step
+Epoch 11/12
+103/103 - 57s - loss: 0.0846 - accuracy: 0.9740 - val_loss: 0.0390 - val_accuracy: 0.9927 - 57s/epoch - 558ms/step
+Epoch 12/12
+103/103 - 57s - loss: 0.0633 - accuracy: 0.9774 - val_loss: 0.0429 - val_accuracy: 0.9890 - 57s/epoch - 556ms/step
+  extra evaluation 'bafmd' <- /content/ds/data/bafmd_crops
+Found 1682 images belonging to 2 classes.
+    bafmd: n=1682  acc=0.8573  f1=0.6874  with_mask recall=0.9904  without_mask precision=0.8860
+  vgg16: acc=0.9890  f1=0.9889  7.1 +/- 1.0 ms/img
+
+======================================================
+  inceptionv3
+======================================================
+Found 3274 images belonging to 2 classes.
+Found 818 images belonging to 2 classes.
+Downloading data from https://storage.googleapis.com/tensorflow/keras-applications/inception_v3/inception_v3_weights_tf_dim_ordering_tf_kernels_notop.h5
+    8192/87910968 [..............................] - ETA: 0s 2891776/87910968 [..............................] - ETA: 3s12926976/87910968 [===>..........................] - ETA: 1s21700608/87910968 [======>.......................] - ETA: 0s32161792/87910968 [=========>....................] - ETA: 0s41558016/87910968 [=============>................] - ETA: 0s51945472/87910968 [================>.............] - ETA: 0s61710336/87910968 [====================>.........] - ETA: 0s71598080/87910968 [=======================>......] - ETA: 0s81960960/87910968 [==========================>...] - ETA: 0s87910968/87910968 [==============================] - 1s 0us/step
+Epoch 1/12
+/usr/local/lib/python3.12/dist-packages/PIL/Image.py:1047: UserWarning: Palette images with Transparency expressed in bytes should be converted to RGBA images
+  warnings.warn(
+103/103 - 97s - loss: 0.2486 - accuracy: 0.9038 - val_loss: 0.0407 - val_accuracy: 0.9939 - 97s/epoch - 943ms/step
+Epoch 2/12
+103/103 - 92s - loss: 0.0824 - accuracy: 0.9740 - val_loss: 0.0276 - val_accuracy: 0.9951 - 92s/epoch - 894ms/step
+Epoch 3/12
+103/103 - 92s - loss: 0.0565 - accuracy: 0.9820 - val_loss: 0.0233 - val_accuracy: 0.9951 - 92s/epoch - 890ms/step
+Epoch 4/12
+103/103 - 95s - loss: 0.0486 - accuracy: 0.9859 - val_loss: 0.0192 - val_accuracy: 0.9951 - 95s/epoch - 919ms/step
+Epoch 5/12
+103/103 - 91s - loss: 0.0428 - accuracy: 0.9872 - val_loss: 0.0186 - val_accuracy: 0.9951 - 91s/epoch - 883ms/step
+Epoch 6/12
+103/103 - 90s - loss: 0.0375 - accuracy: 0.9875 - val_loss: 0.0180 - val_accuracy: 0.9963 - 90s/epoch - 875ms/step
+Epoch 7/12
+103/103 - 91s - loss: 0.0399 - accuracy: 0.9884 - val_loss: 0.0165 - val_accuracy: 0.9951 - 91s/epoch - 885ms/step
+Epoch 8/12
+103/103 - 92s - loss: 0.0339 - accuracy: 0.9908 - val_loss: 0.0164 - val_accuracy: 0.9963 - 92s/epoch - 889ms/step
+Epoch 9/12
+103/103 - 94s - loss: 0.0321 - accuracy: 0.9890 - val_loss: 0.0164 - val_accuracy: 0.9963 - 94s/epoch - 916ms/step
+Epoch 10/12
+103/103 - 92s - loss: 0.0303 - accuracy: 0.9905 - val_loss: 0.0158 - val_accuracy: 0.9963 - 92s/epoch - 892ms/step
+Epoch 11/12
+103/103 - 96s - loss: 0.0259 - accuracy: 0.9921 - val_loss: 0.0157 - val_accuracy: 0.9963 - 96s/epoch - 930ms/step
+Epoch 12/12
+103/103 - 92s - loss: 0.0256 - accuracy: 0.9930 - val_loss: 0.0156 - val_accuracy: 0.9963 - 92s/epoch - 897ms/step
+  extra evaluation 'bafmd' <- /content/ds/data/bafmd_crops
+Found 1682 images belonging to 2 classes.
+    bafmd: n=1682  acc=0.9423  f1=0.9072  with_mask recall=0.9675  without_mask precision=0.8621
+  inceptionv3: acc=0.9963  f1=0.9963  8.2 +/- 1.8 ms/img
+
+======================================================
+  efficientnetb0
+======================================================
+Found 3274 images belonging to 2 classes.
+Found 818 images belonging to 2 classes.
+Downloading data from https://storage.googleapis.com/keras-applications/efficientnetb0_notop.h5
+    8192/16705208 [..............................] - ETA: 0s 4202496/16705208 [======>.......................] - ETA: 0s16705208/16705208 [==============================] - 0s 0us/step
+Epoch 1/12
+E0000 00:00:1787319920.269377    1801 meta_optimizer.cc:967] layout failed: INVALID_ARGUMENT: Size of values 0 does not match size of permutation 4 @ fanin shape inmodel/block2b_drop/dropout/SelectV2-2-TransposeNHWCToNCHW-LayoutOptimizer
+/usr/local/lib/python3.12/dist-packages/PIL/Image.py:1047: UserWarning: Palette images with Transparency expressed in bytes should be converted to RGBA images
+  warnings.warn(
+103/103 - 64s - loss: 0.2746 - accuracy: 0.9093 - val_loss: 0.0634 - val_accuracy: 0.9866 - 64s/epoch - 620ms/step
+Epoch 2/12
+103/103 - 54s - loss: 0.0868 - accuracy: 0.9768 - val_loss: 0.0380 - val_accuracy: 0.9866 - 54s/epoch - 526ms/step
+Epoch 3/12
+103/103 - 54s - loss: 0.0576 - accuracy: 0.9838 - val_loss: 0.0318 - val_accuracy: 0.9902 - 54s/epoch - 520ms/step
+Epoch 4/12
+103/103 - 59s - loss: 0.0460 - accuracy: 0.9884 - val_loss: 0.0298 - val_accuracy: 0.9890 - 59s/epoch - 569ms/step
+Epoch 5/12
+103/103 - 54s - loss: 0.0371 - accuracy: 0.9890 - val_loss: 0.0292 - val_accuracy: 0.9890 - 54s/epoch - 528ms/step
+Epoch 6/12
+103/103 - 64s - loss: 0.0358 - accuracy: 0.9890 - val_loss: 0.0278 - val_accuracy: 0.9902 - 64s/epoch - 621ms/step
+Epoch 7/12
+103/103 - 69s - loss: 0.0267 - accuracy: 0.9921 - val_loss: 0.0271 - val_accuracy: 0.9902 - 69s/epoch - 674ms/step
+Epoch 8/12
+103/103 - 66s - loss: 0.0300 - accuracy: 0.9918 - val_loss: 0.0273 - val_accuracy: 0.9914 - 66s/epoch - 640ms/step
+Epoch 9/12
+103/103 - 69s - loss: 0.0246 - accuracy: 0.9914 - val_loss: 0.0273 - val_accuracy: 0.9890 - 69s/epoch - 666ms/step
+Epoch 10/12
+103/103 - 64s - loss: 0.0266 - accuracy: 0.9911 - val_loss: 0.0284 - val_accuracy: 0.9914 - 64s/epoch - 625ms/step
+Epoch 11/12
+103/103 - 64s - loss: 0.0226 - accuracy: 0.9930 - val_loss: 0.0274 - val_accuracy: 0.9927 - 64s/epoch - 623ms/step
+Epoch 12/12
+103/103 - 54s - loss: 0.0249 - accuracy: 0.9924 - val_loss: 0.0269 - val_accuracy: 0.9927 - 54s/epoch - 524ms/step
+  extra evaluation 'bafmd' <- /content/ds/data/bafmd_crops
+Found 1682 images belonging to 2 classes.
+    bafmd: n=1682  acc=0.9001  f1=0.8221  with_mask recall=0.9705  without_mask precision=0.8333
+  efficientnetb0: acc=0.9927  f1=0.9926  5.0 +/- 1.1 ms/img
+
+Model comparison - mask classification
+Date: 2026-08-21 13:57:43   TensorFlow: 2.20.0
+Reproducibility: seeded, seed=42
+Training: 12 epochs, batch 32, validation split 0.20, ImageNet weights: yes
+Inference timing: median of 20 timed batches after 3 warm-up batches; +/- is the standard deviation
+
+model                acc    prec  recall      f1   ms/img    +/-  params(M)
+---------------------------------------------------------------------------
+inceptionv3       0.9963  0.9961  0.9965  0.9963      8.2    1.8       22.1
+resnet50          0.9927  0.9932  0.9922  0.9926      5.3    0.6       23.9
+efficientnetb0    0.9927  0.9928  0.9925  0.9926      5.0    1.1        4.2
+vgg16             0.9890  0.9898  0.9883  0.9889      7.1    1.0       14.8
+mobilenetv2       0.9804  0.9821  0.9793  0.9803      3.8    0.3        2.4
+
+Additional evaluation set: bafmd
+These models are not the deployed classifier; they use frozen backbones
+with a freshly initialised head trained on the dataset above.
+model             images     acc      f1  mask rec  nomask rec  nomask prec
+---------------------------------------------------------------------------
+inceptionv3         1682  0.9423  0.9072    0.9675      0.8384       0.8621
+resnet50            1682  0.9203  0.8569    0.9852      0.6524       0.9145
+efficientnetb0      1682  0.9001  0.8221    0.9705      0.6098       0.8333
+mobilenetv2         1682  0.8603  0.6957    0.9911      0.3201       0.8974
+vgg16               1682  0.8573  0.6874    0.9904      0.3079       0.8860
+
+Saved: /content/out/results.json, comparison_table.txt, comparison_accuracy.png

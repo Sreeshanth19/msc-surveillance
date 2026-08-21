@@ -1,0 +1,24 @@
+Model comparison - mask classification
+Date: 2026-08-21 13:57:43   TensorFlow: 2.20.0
+Reproducibility: seeded, seed=42
+Training: 12 epochs, batch 32, validation split 0.20, ImageNet weights: yes
+Inference timing: median of 20 timed batches after 3 warm-up batches; +/- is the standard deviation
+
+model                acc    prec  recall      f1   ms/img    +/-  params(M)
+---------------------------------------------------------------------------
+inceptionv3       0.9963  0.9961  0.9965  0.9963      8.2    1.8       22.1
+resnet50          0.9927  0.9932  0.9922  0.9926      5.3    0.6       23.9
+efficientnetb0    0.9927  0.9928  0.9925  0.9926      5.0    1.1        4.2
+vgg16             0.9890  0.9898  0.9883  0.9889      7.1    1.0       14.8
+mobilenetv2       0.9804  0.9821  0.9793  0.9803      3.8    0.3        2.4
+
+Additional evaluation set: bafmd
+These models are not the deployed classifier; they use frozen backbones
+with a freshly initialised head trained on the dataset above.
+model             images     acc      f1  mask rec  nomask rec  nomask prec
+---------------------------------------------------------------------------
+inceptionv3         1682  0.9423  0.9072    0.9675      0.8384       0.8621
+resnet50            1682  0.9203  0.8569    0.9852      0.6524       0.9145
+efficientnetb0      1682  0.9001  0.8221    0.9705      0.6098       0.8333
+mobilenetv2         1682  0.8603  0.6957    0.9911      0.3201       0.8974
+vgg16               1682  0.8573  0.6874    0.9904      0.3079       0.8860

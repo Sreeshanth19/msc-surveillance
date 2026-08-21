@@ -12,10 +12,21 @@ number). For an honest result you should either:
   (a) point ``--dataset`` at a *different* mask dataset the model never saw, or
   (b) use ``--holdout`` to score only a held-out fraction (still weaker than a
       truly independent set, but better than scoring all training data).
-The script prints which mode it used so the caveat can be stated in the report.
+
+"A different dataset" is not the same as "an unseen dataset": the cross-dataset
+run in this project was later found to be 49.9% byte-identical to the training
+data. ``--exclude-from`` removes such duplicates by MD5 and records how many were
+removed, so a run reporting zero exclusions is positive evidence of independence
+rather than an untested assumption.
+
+``--relation`` records how the dataset stands to the training data. It is written
+verbatim into the report, so the caveat attached to a score travels with the
+artefact instead of living only in the author's memory.
 
     python -m scripts.evaluate_mask --dataset m/dataset --holdout 0.2 \
-        --out output/mask_eval
+        --relation training --out output/mask_eval
+    python -m scripts.evaluate_mask --dataset bafmd_eval --relation independent \
+        --exclude-from m/dataset --out results/mask_eval/bafmd
 """
 from __future__ import annotations
 
@@ -53,6 +64,11 @@ def main() -> None:
     ap.add_argument("--holdout", type=float, default=0.0,
                     help="evaluate only this random fraction (0 = all images)")
     ap.add_argument("--seed", type=int, default=42)
+    ap.add_argument("--relation", choices=["training", "independent", "unknown"],
+                    default="unknown",
+                    help="relationship of --dataset to the model's training data. "
+                         "Recorded verbatim in the report so the caveat attached to "
+                         "the score is explicit rather than assumed")
     ap.add_argument("--exclude-from",
                     help="drop images that also appear in this dataset "
                          "(byte-identical), so the evaluation set is genuinely unseen")
@@ -86,13 +102,21 @@ def main() -> None:
 
     rng = np.random.default_rng(args.seed)
     rng.shuffle(items)
-    mode = "ALL images (training performance — optimistic)"
+    relation_note = {
+        "training": "ALL images, drawn from the model's own training distribution "
+                    "(optimistic — this is training performance, not generalisation)",
+        "independent": "ALL images, from a dataset independent of the training data",
+        "unknown": "ALL images; relationship to the training data was not declared "
+                   "(pass --relation to record it)",
+    }
+    mode = relation_note[args.relation]
     if args.holdout and 0 < args.holdout < 1:
         k = int(len(items) * args.holdout)
         items = items[:k]
-        mode = f"held-out {args.holdout:.0%} ({len(items)} images)"
-    if excluded:
-        mode += f"; {excluded} duplicate images excluded via --exclude-from"
+        mode = f"held-out {args.holdout:.0%} ({len(items)} images), --relation {args.relation}"
+    if args.exclude_from:
+        mode += (f"; {excluded} byte-identical duplicates excluded via "
+                 f"--exclude-from {args.exclude_from}")
 
     X, y_true = [], []
     for path, label in items:

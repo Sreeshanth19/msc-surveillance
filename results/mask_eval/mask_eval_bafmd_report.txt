@@ -1,4 +1,4 @@
-Evaluation mode: ALL images (training performance — optimistic)
+Evaluation mode: ALL images, from a dataset independent of the training data; 0 byte-identical duplicates excluded via --exclude-from m/dataset
 Images scored: 1682
 
               precision    recall  f1-score   support

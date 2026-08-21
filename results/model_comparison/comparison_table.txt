@@ -1,7 +1,13 @@
-model                acc    prec  recall      f1   ms/img  params(M)
---------------------------------------------------------------------
-efficientnetb0    0.9976  0.9976  0.9975  0.9976      6.7        4.2
-resnet50          0.9951  0.9952  0.9951  0.9951      6.3       23.9
-inceptionv3       0.9951  0.9952  0.9951  0.9951      6.8       22.1
-mobilenetv2       0.9914  0.9915  0.9914  0.9914      3.4        2.4
-vgg16             0.9914  0.9915  0.9914  0.9914      8.4       14.8
+Model comparison - mask classification
+Date: 2026-08-21 06:07:42   TensorFlow: 2.20.0
+Reproducibility: seeded, seed=42
+Training: 12 epochs, batch 32, validation split 0.20, ImageNet weights: yes
+Inference timing: median of 20 timed batches after 3 warm-up batches; +/- is the standard deviation
+
+model                acc    prec  recall      f1   ms/img    +/-  params(M)
+---------------------------------------------------------------------------
+inceptionv3       0.9963  0.9961  0.9965  0.9963     22.1    0.2       22.1
+resnet50          0.9927  0.9932  0.9922  0.9926     16.0    0.2       23.9
+efficientnetb0    0.9927  0.9928  0.9925  0.9926      5.1    0.1        4.2
+vgg16             0.9890  0.9898  0.9883  0.9889     56.3    1.8       14.8
+mobilenetv2       0.9817  0.9832  0.9806  0.9816      3.0    0.2        2.4

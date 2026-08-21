@@ -1,42 +1,87 @@
 {
-  "mobilenetv2": {
-    "accuracy": 0.991442542787286,
-    "precision": 0.9914536812841898,
-    "recall": 0.9914331149265867,
-    "f1": 0.9914419160781676,
-    "ms_per_image": 3.3593252301216125,
-    "params": 2422210
+  "run": {
+    "date": "2026-08-21 06:07:42",
+    "seed": 42,
+    "reproducibility": "seeded",
+    "epochs": 12,
+    "batch": 32,
+    "val_split": 0.2,
+    "imagenet_weights": true,
+    "timing_repeats": 20,
+    "timing_warmup": 3,
+    "tensorflow": "2.20.0",
+    "dataset": "m/dataset"
   },
-  "resnet50": {
-    "accuracy": 0.9951100244498777,
-    "precision": 0.9951923076923077,
-    "recall": 0.9950738916256158,
-    "f1": 0.9951092935380494,
-    "ms_per_image": 6.292693316936493,
-    "params": 23850242
-  },
-  "vgg16": {
-    "accuracy": 0.991442542787286,
-    "precision": 0.9914945140362941,
-    "recall": 0.9914151800660003,
-    "f1": 0.9914415067491925,
-    "ms_per_image": 8.444592356681824,
-    "params": 14780610
-  },
-  "inceptionv3": {
-    "accuracy": 0.9951100244498777,
-    "precision": 0.9951923076923077,
-    "recall": 0.9950738916256158,
-    "f1": 0.9951092935380494,
-    "ms_per_image": 6.7656636238098145,
-    "params": 22065314
-  },
-  "efficientnetb0": {
-    "accuracy": 0.9975550122249389,
-    "precision": 0.9975845410628019,
-    "recall": 0.9975369458128078,
-    "f1": 0.9975547783457388,
-    "ms_per_image": 6.716527044773102,
-    "params": 4213797
+  "models": {
+    "mobilenetv2": {
+      "accuracy": 0.9816625916870416,
+      "precision": 0.9832214765100671,
+      "recall": 0.9805699481865284,
+      "f1": 0.9815600470692196,
+      "ms_per_image": 3.047516921875104,
+      "ms_per_image_sd": 0.2372997344912251,
+      "timing_repeats": 20,
+      "timing_warmup": 3,
+      "timing_batch": 32,
+      "total_params": 2422210,
+      "trainable_params": 164226,
+      "input_size": 224
+    },
+    "resnet50": {
+      "accuracy": 0.9926650366748166,
+      "precision": 0.9931506849315068,
+      "recall": 0.9922279792746114,
+      "f1": 0.9926352750517691,
+      "ms_per_image": 16.007102203126067,
+      "ms_per_image_sd": 0.17488657271569846,
+      "timing_repeats": 20,
+      "timing_warmup": 3,
+      "timing_batch": 32,
+      "total_params": 23850242,
+      "trainable_params": 262530,
+      "input_size": 224
+    },
+    "vgg16": {
+      "accuracy": 0.988997555012225,
+      "precision": 0.9897959183673469,
+      "recall": 0.9883419689119171,
+      "f1": 0.9889475888719245,
+      "ms_per_image": 56.30347134375313,
+      "ms_per_image_sd": 1.7567058958840347,
+      "timing_repeats": 20,
+      "timing_warmup": 3,
+      "timing_batch": 32,
+      "total_params": 14780610,
+      "trainable_params": 65922,
+      "input_size": 224
+    },
+    "inceptionv3": {
+      "accuracy": 0.9963325183374083,
+      "precision": 0.9961439588688946,
+      "recall": 0.9965277777777778,
+      "f1": 0.9963223558502866,
+      "ms_per_image": 22.063326828131835,
+      "ms_per_image_sd": 0.18172497184160671,
+      "timing_repeats": 20,
+      "timing_warmup": 3,
+      "timing_batch": 32,
+      "total_params": 22065314,
+      "trainable_params": 262530,
+      "input_size": 299
+    },
+    "efficientnetb0": {
+      "accuracy": 0.9926650366748166,
+      "precision": 0.9927875384024578,
+      "recall": 0.992503838034926,
+      "f1": 0.9926396928706398,
+      "ms_per_image": 5.062570312503567,
+      "ms_per_image_sd": 0.06613169553217516,
+      "timing_repeats": 20,
+      "timing_warmup": 3,
+      "timing_batch": 32,
+      "total_params": 4213797,
+      "trainable_params": 164226,
+      "input_size": 224
+    }
   }
 }

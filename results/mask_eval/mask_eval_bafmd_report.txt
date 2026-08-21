@@ -1,0 +1,12 @@
+Evaluation mode: ALL images (training performance — optimistic)
+Images scored: 1682
+
+              precision    recall  f1-score   support
+
+without_mask     0.5008    0.9421    0.6540       328
+   with_mask     0.9822    0.7725    0.8648      1354
+
+    accuracy                         0.8056      1682
+   macro avg     0.7415    0.8573    0.7594      1682
+weighted avg     0.8883    0.8056    0.8237      1682
+

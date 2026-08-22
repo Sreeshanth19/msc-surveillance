@@ -34,6 +34,10 @@ def main() -> None:
     ap.add_argument("--blur", action="store_true", help="pixelate faces for privacy")
     ap.add_argument("--no-mask", action="store_true", help="skip mask classification")
     ap.add_argument("--cpu", action="store_true", help="force CPU inference")
+    ap.add_argument("--frame-log", default=None,
+                    help="write one CSV row per frame (frame, people, "
+                         "distance_offenders, no_mask, fps) so session totals "
+                         "can be traced back to the frames that produced them")
     args = ap.parse_args()
 
     cfg = Config.from_yaml(args.config) if args.config else Config()
@@ -44,7 +48,8 @@ def main() -> None:
         cfg.use_gpu = False
 
     pipe = MonitoringPipeline(cfg, enable_mask=not args.no_mask)
-    stats = pipe.run(args.source, output=args.output, display=args.display)
+    stats = pipe.run(args.source, output=args.output, display=args.display,
+                     frame_log=args.frame_log)
     print(json.dumps(stats.summary(), indent=2))
 
 

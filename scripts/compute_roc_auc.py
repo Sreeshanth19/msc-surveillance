@@ -9,11 +9,19 @@ this script scores the model's raw probability output rather than just the hard
 METHODOLOGICAL NOTE (same caveat as evaluate_mask.py applies here)
 --------------------------------------------------------------------
 Point --dataset at an INDEPENDENT dataset the model never trained on for an
-honest AUC — e.g. the same cross-dataset evaluation that produced the 98.34%
-accuracy figure. Scoring on the training dataset itself will look optimistic.
+honest AUC. Scoring on the training dataset itself will look optimistic.
 
-    python -m scripts.compute_roc_auc --dataset /path/to/cross_dataset --sample 3000 \
-        --out output/roc_auc
+"A different dataset" is not the same as "an unseen dataset". The cross-dataset
+set used earlier in this project was later found to be 49.9% byte-identical to
+the training data, which invalidated the accuracy figure derived from it and any
+AUC computed alongside it. ``--exclude-from`` removes such duplicates by MD5 and
+records how many were removed, so a run reporting zero exclusions is measured
+evidence of independence. ``--relation`` and the dataset path are written into
+the report, so a reader can tell what the AUC was computed on — the earlier
+report recorded neither.
+
+    python -m scripts.compute_roc_auc --dataset data --relation independent \
+        --exclude-from m/dataset --sample 3000 --out results/roc_auc/roc_auc
 
 Produces:
   - {out}_report.txt    : AUC value + evaluation mode + image count
@@ -54,6 +62,14 @@ def main() -> None:
     ap.add_argument("--sample", type=int, default=0,
                     help="evaluate only this many randomly sampled images (0 = all)")
     ap.add_argument("--seed", type=int, default=42)
+    ap.add_argument("--relation", choices=["training", "independent", "unknown"],
+                    default="unknown",
+                    help="relationship of --dataset to the model's training data. "
+                         "Recorded verbatim in the report so the caveat attached to "
+                         "the AUC is explicit rather than assumed")
+    ap.add_argument("--exclude-from",
+                    help="drop images that also appear in this dataset "
+                         "(byte-identical), so the evaluation set is genuinely unseen")
     ap.add_argument("--out", default="output/roc_auc")
     args = ap.parse_args()
 
@@ -70,12 +86,35 @@ def main() -> None:
     model = load_model(model_path)
 
     items = _load_paths(Path(args.dataset))
+
+    excluded = 0
+    if args.exclude_from:
+        import hashlib
+        seen = {hashlib.md5(q.read_bytes()).hexdigest()
+                for q, _ in _load_paths(Path(args.exclude_from))}
+        before = len(items)
+        items = [(q, lab) for q, lab in items
+                 if hashlib.md5(q.read_bytes()).hexdigest() not in seen]
+        excluded = before - len(items)
+        print(f"Excluded {excluded} images also present in {args.exclude_from}")
+
     rng = np.random.default_rng(args.seed)
     rng.shuffle(items)
-    mode = f"ALL images ({len(items)})"
+    relation_note = {
+        "training": "drawn from the model's own training distribution "
+                    "(optimistic — this is training performance, not generalisation)",
+        "independent": "from a dataset independent of the training data",
+        "unknown": "relationship to the training data not declared "
+                   "(pass --relation to record it)",
+    }
+    mode = f"ALL images ({len(items)}), {relation_note[args.relation]}"
     if args.sample and 0 < args.sample < len(items):
         items = items[:args.sample]
-        mode = f"random sample of {len(items)} images (seed={args.seed})"
+        mode = (f"random sample of {len(items)} images (seed={args.seed}), "
+                f"{relation_note[args.relation]}")
+    if args.exclude_from:
+        mode += (f"; {excluded} byte-identical duplicates excluded via "
+                 f"--exclude-from {args.exclude_from}")
 
     X, y_true = [], []
     for path, label in items:
@@ -100,7 +139,13 @@ def main() -> None:
     out = Path(ROOT / args.out)
     out.parent.mkdir(parents=True, exist_ok=True)
     with open(str(out) + "_report.txt", "w") as fh:
-        fh.write(f"Evaluation mode: {mode}\nImages scored: {len(y_true)}\nAUC: {roc_auc:.4f}\n")
+        fh.write(f"Dataset: {args.dataset}\n"
+                 f"Evaluation mode: {mode}\n"
+                 f"Images scored: {len(y_true)} "
+                 f"({int((y_true == 1).sum())} with_mask, "
+                 f"{int((y_true == 0).sum())} without_mask)\n"
+                 f"Positive class for the ROC: with_mask\n"
+                 f"AUC: {roc_auc:.4f}\n")
     print(f"Evaluation mode: {mode}")
     print(f"Images scored: {len(y_true)}")
     print(f"AUC: {roc_auc:.4f}")

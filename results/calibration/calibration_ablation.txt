@@ -1,0 +1,50 @@
+Calibration ablation against an independent physical reference
+Date: 2026-08-21 15:54:49
+
+Reference image points: (227, 224) -> (894, 221)
+Pixel separation:       667.0 px
+True length:            1.4800 m
+Safe-distance threshold: 2.00 m  ->  ground truth: VIOLATION
+
+The reference points and true length are those recorded in
+results/calibration/homography_validation_report.txt. Nothing is
+re-measured physically here; superseded calibrations are read from git
+history and applied to the same two points.
+
+calibration                         persp %  measured m   error %     verdict
+-----------------------------------------------------------------------------
+original (image corners clicked)      2.69%      1.4223    -3.90%   VIOLATION
+A4 sheet (0.297 x 0.210 m)          159.82%      0.8435   -43.01%   VIOLATION
+calib2 (1.78 x 2.16 m)              125.90%      1.4280    -3.51%   VIOLATION
+final calib3 (2.80 x 2.58 m)         56.53%      1.4680    -0.81%   VIOLATION
+baseline: fixed 80 px threshold         n/a         n/a       n/a   compliant
+
+Sources
+   original (image corners clicked)   git:45c4fc6:calibration/homography.npy
+   A4 sheet (0.297 x 0.210 m)         git:b68ff20:calibration/homography_a4.npy
+   calib2 (1.78 x 2.16 m)             git:2e0e28b:calibration/homography.npy
+   final calib3 (2.80 x 2.58 m)       calibration/homography.npy
+   baseline threshold                 saimj7 MAX_DISTANCE = 80 px; config.yaml fallback_pixel_distance
+
+Reading this table
+
+   Only the final calibration is within 1 % of the reference. The
+   A4-based calibration, which covers 7.3 % of the frame, is the worst
+   despite having the highest perspective variation: a small reference
+   patch extrapolates badly. Perspective variation alone is not
+   sufficient; it must come with coverage.
+
+   The inherited pixel threshold reaches the WRONG verdict on this
+   pair: 667 px against a 80 px threshold reads as compliant, while the
+   true separation of 1.48 m is below the 2.0 m limit. A threshold expressed
+   in pixels encodes the geometry of the camera it was tuned on.
+
+Two limits on what this shows
+
+   1. The reference lies at near-constant image depth (y = 224 and 221),
+      so perspective correction barely affects it. This validates
+      absolute scale, not perspective correction, which is why even the
+      degenerate calibration scores reasonably here.
+   2. The pixel threshold was tuned for the baseline author's camera.
+      This shows such a threshold does not transfer between
+      installations, not that the baseline was wrong in its own setting.

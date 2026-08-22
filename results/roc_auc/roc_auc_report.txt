@@ -1,3 +1,5 @@
-Evaluation mode: random sample of 3000 images (seed=42)
-Images scored: 3000
-AUC: 0.9983
+Dataset: data
+Evaluation mode: random sample of 3000 images (seed=42), from a dataset independent of the training data; 3761 byte-identical duplicates excluded via --exclude-from m/dataset
+Images scored: 3000 (1475 with_mask, 1525 without_mask)
+Positive class for the ROC: with_mask
+AUC: 0.9991

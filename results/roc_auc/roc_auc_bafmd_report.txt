@@ -1,0 +1,5 @@
+Dataset: data/bafmd_crops
+Evaluation mode: ALL images (1682), from a dataset independent of the training data; 0 byte-identical duplicates excluded via --exclude-from m/dataset
+Images scored: 1682 (1354 with_mask, 328 without_mask)
+Positive class for the ROC: with_mask
+AUC: 0.9601

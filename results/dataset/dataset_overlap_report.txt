@@ -1,0 +1,32 @@
+Byte-identical overlap between the training and evaluation datasets
+Date: 2026-08-21 15:56:50
+Method: MD5 of file contents. Identical hash means identical bytes,
+        regardless of filename or folder.
+
+Baseline dataset:   m/dataset
+   images scored:   4092  (2162 with_mask, 1930 without_mask)
+   unique hashes:   3989
+
+Evaluation dataset: data
+   images scored:   7553  (3725 with_mask, 3828 without_mask)
+
+Overlap
+   shared unique hashes:                 3672
+   as a fraction of the baseline:        92.1 %
+   evaluation images that are duplicates: 3761 (49.8 % of the evaluation set)
+
+Contamination of a 40% holdout (seed 42, formed exactly as evaluate_mask.py forms it)
+   holdout size:            3021
+   of which were training data: 1508 (49.9 %)
+   genuinely unseen:        1513
+
+   An accuracy figure computed on that holdout is therefore not a
+   generalisation estimate. Use --exclude-from in evaluate_mask.py to
+   drop duplicates before scoring.
+
+Note
+   Overlap of this size is unlikely to be plagiarism between dataset
+   authors; the more probable explanation is that both collections drew
+   on the same upstream sources. The consequence for evaluation is the
+   same either way, which is why the check is worth running on any pair
+   of datasets before one is described as independent of the other.

@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import time
 from collections import defaultdict
+from pathlib import Path
 from dataclasses import dataclass, field
 from typing import Dict, Iterator, Optional
 
@@ -128,19 +129,36 @@ class MonitoringPipeline:
 
         return frame, FrameStats(self.stats.frames, total, len(offenders), no_mask_count, fps)
 
-    def run(self, source, output: Optional[str] = None, display: bool = False) -> SessionStats:
-        """Process a webcam index, video path, or stream URL to completion."""
+    def run(self, source, output: Optional[str] = None, display: bool = False,
+            frame_log: Optional[str] = None) -> SessionStats:
+        """Process a webcam index, video path, or stream URL to completion.
+
+        ``frame_log`` writes one CSV row per frame. Session totals alone cannot
+        show *where* a count came from: a run reporting several people in
+        footage known to contain one is reporting false detections, and only a
+        per-frame record makes that visible and checkable afterwards.
+        """
         cap = cv2.VideoCapture(int(source) if str(source).isdigit() else source)
         if not cap.isOpened():
             raise RuntimeError(f"Could not open video source: {source}")
 
         writer = None
+        log_fh = None
+        if frame_log:
+            lp = Path(frame_log)
+            lp.parent.mkdir(parents=True, exist_ok=True)
+            log_fh = lp.open("w")
+            log_fh.write("frame,people,distance_offenders,no_mask,fps\n")
         try:
             while True:
                 ok, frame = cap.read()
                 if not ok:
                     break
-                annotated, _ = self.process_frame(frame)
+                annotated, fstats = self.process_frame(frame)
+                if log_fh is not None:
+                    log_fh.write(f"{fstats.frame_index},{fstats.n_people},"
+                                 f"{fstats.n_distance_offenders},{fstats.n_no_mask},"
+                                 f"{fstats.fps:.2f}\n")
                 if output and writer is None:
                     h, w = annotated.shape[:2]
                     fourcc = cv2.VideoWriter_fourcc(*"mp4v")
@@ -155,6 +173,8 @@ class MonitoringPipeline:
             cap.release()
             if writer is not None:
                 writer.release()
+            if log_fh is not None:
+                log_fh.close()
             if display:
                 cv2.destroyAllWindows()
         return self.stats

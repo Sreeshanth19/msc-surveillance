@@ -1,8 +1,8 @@
 """Privacy-preserving face anonymisation.
 
-The baseline report *discussed* privacy but never implemented it. Because your
-project's ethics appendix commits to data minimisation and anonymisation of
-saved outputs, this module actually delivers it: detected faces are mosaicked
+The baseline report *discussed* privacy but never implemented it. This project
+commits to data minimisation and to anonymising saved output, so the commitment
+is discharged in code rather than in prose: detected faces are mosaicked
 (pixelated) before a frame is displayed or written to disk, so the monitoring
 overlay can be retained for review without storing identifiable imagery.
 

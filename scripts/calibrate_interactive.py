@@ -1,17 +1,19 @@
 """Interactive calibration: click four ground points to create the homography.
 
-This is the beginner-friendly way to produce ``calibration/homography.npy`` so
-the pipeline can report distance in real metres. It opens a frame from your
-video, you click four points that form a rectangle on the ground (in the order
-top-left, top-right, bottom-right, bottom-left), then type that rectangle's real
-size in metres. Needs a screen (run it on your own machine, not a headless server).
+Produces ``calibration/homography.npy``, which is what allows the pipeline to
+report distance in metres rather than pixels. A frame is opened from the source
+video; four points forming a rectangle on the ground are clicked in the order
+top-left, top-right, bottom-right, bottom-left, and that rectangle's real size
+in metres is then entered. A display is required, so this cannot be run on a
+headless machine.
 
     python -m scripts.calibrate_interactive --source mm/test4.mp4 --frame 15
 
-Tip: pick a rectangle you can estimate the size of - floor tiles, a parking bay,
-paving slabs, or two markers a known distance apart. If you are only estimating
-the size, say so in your report (the distance is then approximate but the method
-is still sound).
+The rectangle should be one whose size is known rather than guessed - floor
+tiles, a parking bay, paving slabs, or two markers a measured distance apart.
+An estimated size does not invalidate the method, but it does propagate
+directly into every distance the system subsequently reports, so an estimate
+must be recorded as such.
 """
 from __future__ import annotations
 

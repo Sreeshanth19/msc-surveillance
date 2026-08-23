@@ -1,11 +1,12 @@
 """Face detection and mask classification.
 
-This stage is deliberately kept compatible with the assets you already have:
-the OpenCV SSD face detector (``deploy.prototxt`` + ``res10`` caffemodel) and the
+This stage is deliberately kept compatible with the baseline assets: the
+OpenCV SSD face detector (``deploy.prototxt`` + ``res10`` caffemodel) and the
 trained MobileNetV2 mask classifier (``mask_detector.model``). Reusing the
-baseline classifier lets the rest of the (new) system run end-to-end immediately;
-retraining and a fairer cross-dataset evaluation are handled separately by
-``scripts/evaluate_mask.py``.
+baseline classifier lets the rest of the system run end to end immediately and
+keeps the classifier fixed while the components around it change. Retraining
+and independent evaluation are handled separately by ``scripts/train_mask.py``
+and ``scripts/evaluate_mask.py``.
 
 TensorFlow is imported lazily so the pipeline's geometry/detection parts and the
 unit tests do not require it.

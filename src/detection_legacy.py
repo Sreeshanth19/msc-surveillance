@@ -9,7 +9,7 @@ This class implements the *same* ``track(frame) -> List[Track]`` interface using
 OpenCV's DNN module and the YOLOv3 weights that ship with the baseline, plus a
 minimal greedy nearest-centroid tracker so IDs are still reasonably stable. It
 is intentionally the weaker option; it exists so the pipeline is runnable
-anywhere and so you can do a like-for-like detector comparison in evaluation.
+anywhere and so the two detectors can be compared like for like in evaluation.
 """
 # ---------------------------------------------------------------------------
 # ATTRIBUTION

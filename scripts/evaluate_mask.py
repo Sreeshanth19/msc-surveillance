@@ -8,7 +8,7 @@ IMPORTANT METHODOLOGICAL NOTE
 The supplied ``mask_detector.model`` was trained on the very dataset shipped with
 the baseline. Evaluating on that same data measures *training* performance and
 will look optimistic (the baseline's headline ~93% is exactly this kind of
-number). For an honest result you should either:
+number). Two options give a defensible result:
   (a) point ``--dataset`` at a *different* mask dataset the model never saw, or
   (b) use ``--holdout`` to score only a held-out fraction (still weaker than a
       truly independent set, but better than scoring all training data).

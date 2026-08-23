@@ -1,9 +1,20 @@
-"""TODO: write the module docstring yourself.
+"""Diagnose a saved homography before its distances are trusted.
 
-Explain: why unit tests cannot catch this (they verify the transform maths,
-which was never wrong - the defect is in the calibration DATA), and what a
-degenerate homography does (near-zero perspective terms -> effectively affine
--> one constant metres-per-pixel scale -> arithmetically a pixel threshold).
+A homography can be numerically valid, invert cleanly, and still be useless.
+If its projective terms are near zero the transform reduces to an affine one:
+it applies a single constant metres-per-pixel scale across the whole frame and
+performs no perspective correction at all. Distances computed from it are a
+fixed pixel threshold wearing a metric unit, and nothing about the output
+reveals this - the overlay reads "1.8 m" exactly as it would from a correct
+calibration.
+
+Unit tests cannot catch the condition. They exercise the projection maths,
+which is not what fails; the defect is in the calibration data supplied to it.
+The check therefore has to be made against the fitted matrix itself, which is
+what this script does: it measures how much the projective denominator varies
+across the frame, how much the implied scale changes with depth, and how much
+of the frame the calibrated region actually spans. It exits non-zero when any
+of the three falls outside the thresholds recorded below.
 """
 from __future__ import annotations
 
@@ -20,9 +31,6 @@ sys.path.insert(0, str(ROOT))
 import cv2  # noqa: E402
 
 
-# Your data: degenerate calibrations gave 0.44% and 2.69%; working ones gave
-# 56.53%, 125.9%, 159.8%. A4 at 7.3% coverage carried +6.82% error; your final
-# at 63.8% coverage carried -0.81%.
 # Thresholds set from the calibrations measured in this project.
 # Perspective: the two degenerate calibrations measured 0.44 % and 2.69 %;
 # every calibration that produced usable metric distances exceeded 56 %. 10 %
@@ -40,7 +48,18 @@ COVERAGE_WARN_FRAC = 0.10
 
 def perspective_strength(H, W, Ht):
     """Variation of the projective denominator across the frame, as a percentage.
-    ...
+
+    For a homography H, an image point (x, y) is divided through by
+    w = H[2,0]*x + H[2,1]*y + H[2,2] before the world coordinate is read off.
+    That denominator is what makes the transform projective rather than affine:
+    if w is effectively constant across the frame, there is no perspective
+    correction happening. It is evaluated at the four image corners and the
+    spread is returned as a percentage of the mean.
+
+    A homography is defined only up to scale, so w has no absolute meaning and
+    an absolute spread would depend on how the matrix happened to be
+    normalised. Dividing by the mean removes that dependence, which is why the
+    measure is a ratio rather than a difference.
     """
     corners = [(0, 0), (W, 0), (W, Ht), (0, Ht)]
     ws = [H[2, 0] * x + H[2, 1] * y + H[2, 2] for x, y in corners]
@@ -66,9 +85,15 @@ def scale_profile(H, W, Ht, rows=5):
 def calibration_coverage(H, rect_w, rect_h, W, Ht):
     """Recover the clicked points and report what fraction of the frame they span.
 
-    TODO: you ran this today. Invert H, apply to the world rectangle corners
-    (0,0), (w,0), (w,h), (0,h). Shoelace formula for the area. Return
-    (recovered_points, area_fraction).
+    The image points used to fit the homography are not stored alongside it,
+    but they can be recovered: the inverse transform maps the corners of the
+    known world rectangle - (0,0), (w,0), (w,h), (0,h) - back into image
+    coordinates. The area of the resulting quadrilateral is taken with the
+    shoelace formula and returned as a fraction of the frame area.
+
+    The fraction matters because distances measured outside the calibrated
+    region are extrapolations, and extrapolation error grows with distance
+    from it.
     """
     world = np.array([[[0.0, 0.0]], [[rect_w, 0.0]],
                       [[rect_w, rect_h]], [[0.0, rect_h]]], dtype=np.float64)

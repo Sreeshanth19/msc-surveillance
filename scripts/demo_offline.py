@@ -1,9 +1,9 @@
 """Offline demo: annotate a video on CPU with no model downloads.
 
 Wires the legacy YOLOv3 detector into the *real* distance and visualisation
-modules to prove the pipeline end-to-end without a GPU or network. Distance runs
-in uncalibrated (pixel) mode here; on your own footage you would calibrate for
-metres with scripts/calibrate.py.
+modules to prove the pipeline end to end without a GPU or network. Distance
+runs in uncalibrated (pixel) mode here; metric output requires a calibration
+for the camera concerned, produced by scripts/calibrate.py.
 
     python -m scripts.demo_offline --source mm/test4.mp4 \
         --yolo-dir m/yolo --output output/annotated_demo.mp4 --frames 40

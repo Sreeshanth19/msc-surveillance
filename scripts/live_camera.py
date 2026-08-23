@@ -1,7 +1,8 @@
-"""Live webcam monitoring in an OpenCV window (the display that works on your Mac).
+"""Live webcam monitoring in an OpenCV window.
 
-Runs the full four-state pipeline on your FaceTime camera. Distance is shown in
-pixels (the saved homography was for the test video, not your webcam).
+Runs the full risk-state pipeline on the default system camera. Distance is
+reported in pixels: the saved homography calibrates the test-video camera, and
+a homography is specific to the camera and viewpoint it was fitted for.
 
     python -m scripts.live_camera                 # live view
     python -m scripts.live_camera --save live.mp4 # also save the processed video
@@ -77,7 +78,7 @@ def main() -> None:
                 cv2.setWindowProperty(win, cv2.WND_PROP_TOPMOST, 1)
             except Exception:
                 pass
-            print("  (window opened - if you cannot see it, press Cmd+Tab to the Python icon)", flush=True)
+            print("  (window opened - if it is not visible, Cmd+Tab to the Python icon)", flush=True)
             first = False
         if cv2.waitKey(1) & 0xFF == ord("q"):
             break

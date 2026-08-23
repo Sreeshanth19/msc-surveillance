@@ -1,10 +1,11 @@
 """Desktop application (macOS/Tkinter) for mask + social-distance monitoring.
 
-Runs entirely locally. Open a video OR use the live webcam, Play/Pause/Stop,
-watch the four-state detections in real time, optionally calibrate for metric
-distance, and save the processed output. Reuses the project's MonitoringPipeline.
+Runs entirely locally. Open a video or use the live webcam, Play/Pause/Stop,
+watch the five-state risk assignment in real time, optionally calibrate for
+metric distance, and save the processed output. Reuses the project's
+MonitoringPipeline.
 
-Launch (from the project root, with your venv active):
+Launch (from the project root, with the virtual environment active):
     python -m scripts.desktop_app
 """
 from __future__ import annotations

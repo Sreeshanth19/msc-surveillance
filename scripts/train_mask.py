@@ -1,11 +1,12 @@
-"""Train your own mask classifier on a chosen dataset.
+"""Train a mask classifier from scratch on a nominated dataset.
 
 Why this exists
 ---------------
-Using the baseline author's pre-trained ``mask_detector.model`` is fine for
-getting the pipeline running, but for the dissertation it is stronger to train
-*your own* model on a dataset *you* selected and documented: it is clearly your
-own work, and it lets you compare backbones and datasets as a proper experiment.
+The baseline author's pre-trained ``mask_detector.model`` is enough to get the
+pipeline running end to end, but it carries no record of what it was trained on
+or how. Training a classifier here instead makes the dataset, the backbone and
+the hyperparameters explicit and reproducible, and allows different backbones
+and datasets to be compared as a controlled experiment rather than assumed.
 
 This trains a MobileNetV2 transfer-learning classifier (head only, base frozen)
 and streams images from disk (no loading the whole set into memory), so it runs

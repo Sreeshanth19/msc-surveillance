@@ -7,8 +7,8 @@ recording) and supplies the corresponding real-world coordinates in metres.
 A homography is then fitted mapping image pixels to that metric ground plane.
 
 Two ways to obtain the four image points are provided:
-  * ``compute_homography`` — for when you already have the coordinates;
-  * ``pick_points_interactive`` — click them on a still frame (needs a display).
+  * ``compute_homography`` — for when the coordinates are already known;
+  * ``pick_points_interactive`` — clicked on a still frame (needs a display).
 """
 from __future__ import annotations
 

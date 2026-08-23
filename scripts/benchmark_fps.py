@@ -1,8 +1,10 @@
 """Benchmark processing speed (FPS / per-frame latency).
 
-Your scoping document promises frames-per-second figures; this produces them
-reproducibly on whatever hardware you run it on. Report the hardware alongside
-the numbers (CPU/GPU model), since FPS is meaningless without it.
+Throughput is a stated non-functional requirement, so it has to be measured
+rather than estimated. This script runs a fixed number of frames through the
+full pipeline and reports the rate reproducibly. The hardware must be recorded
+alongside the figures: a frames-per-second number means nothing without the
+machine that produced it.
 
     python -m scripts.benchmark_fps --source mm/test4.mp4 --frames 200
 """

@@ -60,6 +60,7 @@ class App:
         self._imgref = None
         self.calib_mode = False
         self.calib_points = []
+        self._poll_id = None
 
         self._build_ui()
         root.protocol("WM_DELETE_WINDOW", self.on_close)
@@ -227,7 +228,7 @@ class App:
             self._draw(frame)
         except queue.Empty:
             pass
-        self.root.after(15, self._poll)
+        self._poll_id = self.root.after(15, self._poll)
 
     def stop(self):
         self.stop_flag.set()
@@ -306,6 +307,15 @@ class App:
     def on_close(self):
         self.stop_flag.set()
         self.playing.clear()
+        # Cancel the repeating canvas poll before the interpreter goes away.
+        # Without this a queued callback fires against destroyed widgets and
+        # prints a TclError traceback, which reads as a crash on a clean exit.
+        if self._poll_id is not None:
+            try:
+                self.root.after_cancel(self._poll_id)
+            except Exception:
+                pass
+            self._poll_id = None
         self.root.after(150, self.root.destroy)
 
 

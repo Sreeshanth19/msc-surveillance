@@ -8,8 +8,8 @@ Examples
     # process a recorded clip and save an annotated copy
     python -m scripts.run --source mm/test4.mp4 --output output/annotated.mp4
 
-    # turn on privacy blurring and disable mask classification
-    python -m scripts.run --source mm/test4.mp4 --output output/anon.mp4 --blur --no-mask
+    # anonymise faces without classifying masks (anonymisation is on by default)
+    python -m scripts.run --source mm/test4.mp4 --output output/anon.mp4 --no-mask
 """
 from __future__ import annotations
 
@@ -31,7 +31,10 @@ def main() -> None:
     ap.add_argument("--output", default=None, help="path to write an annotated video")
     ap.add_argument("--config", default=None, help="optional YAML config file")
     ap.add_argument("--display", action="store_true", help="show a live window (needs a GUI)")
-    ap.add_argument("--blur", action="store_true", help="pixelate faces for privacy")
+    ap.add_argument("--blur", action="store_true",
+                    help="pixelate faces for privacy (already the default)")
+    ap.add_argument("--no-blur", action="store_true",
+                    help="disable face anonymisation; the only way to turn it off")
     ap.add_argument("--no-mask", action="store_true", help="skip mask classification")
     ap.add_argument("--cpu", action="store_true", help="force CPU inference")
     ap.add_argument("--frame-log", default=None,
@@ -44,6 +47,8 @@ def main() -> None:
     cfg = cfg.resolve(ROOT)
     if args.blur:
         cfg.privacy_blur = True
+    if args.no_blur:
+        cfg.privacy_blur = False
     if args.cpu:
         cfg.use_gpu = False
 

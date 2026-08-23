@@ -1,10 +1,15 @@
 """End-to-end monitoring pipeline.
 
 Per frame: detect & track people -> classify masks on detected faces ->
-estimate metric distances and flag close contacts -> (optionally) anonymise
-faces -> draw overlays. Because people are tracked, the pipeline also keeps a
-per-identity violation history, enabling dwell-style statistics that the
-per-frame baseline could not produce.
+estimate metric distances and flag close contacts -> anonymise faces -> draw
+overlays. Because people are tracked, the pipeline also keeps a per-identity
+violation history, enabling dwell-style statistics that the per-frame baseline
+could not produce.
+
+Anonymisation is ordered after classification and before any drawing, so the
+classifier sees the unobscured face and no consumer of the frame does. It is
+governed by ``privacy_blur`` alone: disabling mask classification reduces what
+the system reports, never what it discloses.
 """
 from __future__ import annotations
 
@@ -71,8 +76,15 @@ class MonitoringPipeline:
                 H = None
         self.distance = DistanceEstimator(H, cfg.min_safe_distance_m, cfg.fallback_pixel_distance)
 
+        # MaskClassifier owns the face detector, and anonymisation needs face
+        # boxes whether or not masks are being classified. Building it for
+        # either purpose is what stops disabling classification from also
+        # disabling privacy: FR-08 and NFR-06 are not conditional on FR-03.
+        # When classification is off, only detect_faces() is called, so no
+        # TensorFlow is imported and the classifier is never loaded.
+        self.classify_masks = enable_mask
         self.mask: Optional[MaskClassifier] = None
-        if enable_mask:
+        if enable_mask or cfg.privacy_blur:
             self.mask = MaskClassifier(
                 cfg.face_proto, cfg.face_weights, cfg.mask_model,
                 cfg.face_conf, cfg.mask_input_size,
@@ -89,7 +101,14 @@ class MonitoringPipeline:
         foot_points = [t.foot_point for t in tracks]
         offenders, pairs = self.distance.violations(foot_points)
 
-        mask_results = self.mask.detect(frame) if self.mask else []
+        if self.mask is not None and self.classify_masks:
+            mask_results = self.mask.detect(frame)
+            face_boxes = [r.bbox for r in mask_results]
+        elif self.mask is not None:
+            mask_results = []                      # no verdicts: none were asked for
+            face_boxes = self.mask.detect_faces(frame)
+        else:
+            mask_results, face_boxes = [], []
 
         # link each detected face's mask verdict to the person that contains it
         person_masked = [None] * len(tracks)  # True / False / None(unknown)
@@ -111,8 +130,8 @@ class MonitoringPipeline:
         violation_count = sum(1 for i in range(total)
                               if (i in offenders) or (person_masked[i] is False))
 
-        if self.cfg.privacy_blur and mask_results:
-            privacy.anonymise_faces(frame, [r.bbox for r in mask_results], self.cfg.privacy_blocks)
+        if self.cfg.privacy_blur and face_boxes:
+            privacy.anonymise_faces(frame, face_boxes, self.cfg.privacy_blocks)
 
         fps = 1.0 / max(time.time() - t0, 1e-6)
         visualize.draw_violation_links(frame, tracks, pairs, self.distance.is_calibrated)

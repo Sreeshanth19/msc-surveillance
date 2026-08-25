@@ -1,0 +1,57 @@
+Decision-threshold sweep for the deployed mask classifier
+Date: 2026-08-25 16:45:56
+Dataset: data/bafmd_crops - from a dataset independent of the training data
+   0 byte-identical duplicates excluded via --exclude-from m/dataset
+Images scored: 1682 (1354 with_mask, 328 without_mask)
+AUC: 0.9601   (threshold-free: the quality of the ranking)
+Threshold candidates: 1146 midpoints between consecutive distinct scores (exhaustive; no fixed grid, so no truncation)
+
+Result
+
+                                                 threshold   macro F1
+   ------------------------------------------------------------------
+   deployed, as shipped                              0.500     0.7594
+   recalibrated, cross-fitted (ACHIEVABLE)       2.285e-04     0.8656
+   recalibrated, oracle (UPPER BOUND ONLY)       1.905e-04     0.8748
+
+   Cross-fitted spread over 40 tune/test folds: macro F1 sd 0.0142, threshold sd 2.306e-04
+   Recovery attributable to recalibration alone: +0.1062 macro F1 (92% of the oracle gain)
+
+Per class
+
+   class            threshold  precision   recall       F1      n
+   ------------------------------------------------------------------
+   without_mask         0.500     0.5008   0.9421   0.6540    328
+   with_mask            0.500     0.9822   0.7725   0.8648   1354
+
+   without_mask     1.905e-04     0.7928   0.8049   0.7988    328
+   with_mask        1.905e-04     0.9526   0.9490   0.9508   1354
+
+How to read this
+
+   The cross-fitted figure is the result. The threshold is chosen on one
+   random half of the data and scored on the other, twenty times in both
+   directions, so it never sees the labels it is judged on. That is what
+   recalibration would actually be worth on unseen data from this
+   population.
+
+   The oracle figure is NOT an achievable result. It picks the threshold
+   that maximises macro F1 on the very data it then reports, which no
+   deployment can do. It is included only as the ceiling: no threshold
+   choice on this data can beat it.
+
+   If the cross-fitted figure sits close to the oracle, the threshold is
+   stable and recalibration transfers. If it sits far below, the best
+   threshold is an artefact of whichever half it was fitted on and
+   recalibration is not the answer.
+
+Limits
+
+   A threshold is fitted and evaluated on halves of the SAME dataset, so
+   this measures transfer across a random split, not across populations.
+   It does not show that a threshold tuned here would suit a different
+   deployment; it shows how much of the deployed loss on THIS population
+   is attributable to threshold placement rather than to ranking.
+
+   Recalibration cannot exceed what the ranking supports. The AUC above
+   bounds every row in this table.

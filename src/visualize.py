@@ -64,7 +64,7 @@ def draw_status_boxes(frame: np.ndarray, tracks, statuses: Sequence[str]) -> Non
         colour, label, fg = STATUS[s]
         x1, y1, x2, y2 = t.bbox
         cv2.rectangle(frame, (x1, y1), (x2, y2), colour, 2, cv2.LINE_AA)
-        _chip(frame, f"{label}", (x1 + 2, y1 - 4), fg=fg, bg=colour, scale=0.5, thick=1)
+        _chip(frame, f"#{t.track_id} {label}", (x1 + 2, y1 - 4), fg=fg, bg=colour, scale=0.5, thick=1)
 
 
 def draw_violation_links(frame: np.ndarray, tracks,

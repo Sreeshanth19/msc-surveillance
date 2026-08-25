@@ -1,0 +1,5 @@
+Dataset: data
+Evaluation mode: random sample of 3000 images (seed=42), from a dataset that shares images with the training data, with those duplicates deliberately NOT excluded - this is not a generalisation estimate and exists only as the before-correction comparator
+Images scored: 3000 (1475 with_mask, 1525 without_mask)
+Positive class for the ROC: with_mask
+AUC: 0.9983

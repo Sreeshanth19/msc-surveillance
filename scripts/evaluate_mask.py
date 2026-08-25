@@ -64,7 +64,7 @@ def main() -> None:
     ap.add_argument("--holdout", type=float, default=0.0,
                     help="evaluate only this random fraction (0 = all images)")
     ap.add_argument("--seed", type=int, default=42)
-    ap.add_argument("--relation", choices=["training", "independent", "unknown"],
+    ap.add_argument("--relation", choices=["training", "independent", "contaminated", "unknown"],
                     default="unknown",
                     help="relationship of --dataset to the model's training data. "
                          "Recorded verbatim in the report so the caveat attached to "
@@ -103,6 +103,10 @@ def main() -> None:
     rng = np.random.default_rng(args.seed)
     rng.shuffle(items)
     relation_note = {
+        "contaminated": "ALL images; the dataset shares images with the training data "
+                        "and those duplicates were deliberately NOT excluded - not a "
+                        "generalisation estimate, kept only as the before-correction "
+                        "comparator",
         "training": "ALL images, drawn from the model's own training distribution "
                     "(optimistic — this is training performance, not generalisation)",
         "independent": "ALL images, from a dataset independent of the training data",

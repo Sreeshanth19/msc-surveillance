@@ -1,0 +1,48 @@
+Camera displacement between the calibration recording and the analysed video
+Date: 2026-08-25 15:27:45
+Homography: calibration/homography.npy
+Calibration rectangle: 2.8 m x 2.58 m
+Frame size: 1920 x 1080
+
+Method: affine warp estimated by ECC on greyscale frames, then applied to
+        the four corners of the calibration region recovered from H.
+        Pixels are converted to millimetres with the metres-per-pixel scale
+        H implies, which ranges 0.001519 to 0.002273 m/px across the frame.
+
+Corner displacement of the calibration region
+
+   comparison                                             max px      mm (near-far)
+   --------------------------------------------------------------------------------
+   calib3.mp4 frame 15 -> demo3.mp4 frame 15                3.69          5.6 - 8.4
+   demo3.mp4 frame 0 -> frame 407                           1.50          2.3 - 3.4
+   demo3.mp4 frame 0 -> frame 813                           1.72          2.6 - 3.9
+
+Estimated affine warps
+   calib3.mp4 frame 15 -> demo3.mp4 frame 15
+      scale     1.000307 / 1.000896
+      rotation  -0.000740 / +0.001584  (0.091 deg)
+      translate +2.82 / -3.04 px
+   demo3.mp4 frame 0 -> frame 407
+      scale     0.999814 / 1.000083
+      rotation  +0.000323 / +0.000067  (0.004 deg)
+      translate -0.21 / +1.27 px
+   demo3.mp4 frame 0 -> frame 813
+      scale     0.999441 / 0.998605
+      rotation  -0.000019 / -0.000014  (0.001 deg)
+      translate +0.69 / +1.95 px
+
+Verdict
+   The calibration's own validated error is -0.81 % on a 1.48 m reference,
+   which is 12 mm (results/calibration/homography_validation_report.txt).
+   The largest camera displacement measured here is 8.4 mm.
+
+   The camera moved less than the calibration's own measurement uncertainty.
+   Reusing the calibration across these recordings is therefore justified,
+   as a measured bound rather than as an assumption.
+
+Limit of this check
+   An affine warp captures translation, rotation, scale and shear. It does
+   not capture a change in the camera's distance from, or angle to, the
+   ground plane, which would alter perspective rather than the image
+   similarity. A near-zero result here means the two views are close in
+   image terms; it is strong evidence for, but not proof of, an unmoved camera.

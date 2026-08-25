@@ -62,7 +62,7 @@ def main() -> None:
     ap.add_argument("--sample", type=int, default=0,
                     help="evaluate only this many randomly sampled images (0 = all)")
     ap.add_argument("--seed", type=int, default=42)
-    ap.add_argument("--relation", choices=["training", "independent", "unknown"],
+    ap.add_argument("--relation", choices=["training", "independent", "contaminated", "unknown"],
                     default="unknown",
                     help="relationship of --dataset to the model's training data. "
                          "Recorded verbatim in the report so the caveat attached to "
@@ -101,6 +101,10 @@ def main() -> None:
     rng = np.random.default_rng(args.seed)
     rng.shuffle(items)
     relation_note = {
+        "contaminated": "from a dataset that shares images with the training data, "
+                        "with those duplicates deliberately NOT excluded - this is not "
+                        "a generalisation estimate and exists only as the "
+                        "before-correction comparator",
         "training": "drawn from the model's own training distribution "
                     "(optimistic — this is training performance, not generalisation)",
         "independent": "from a dataset independent of the training data",

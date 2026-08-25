@@ -1,9 +1,10 @@
 """Desktop application (macOS/Tkinter) for mask + social-distance monitoring.
 
-Runs entirely locally. Open a video or use the live webcam, Play/Pause/Stop,
+Runs entirely locally on a recorded video. Open a file, Play/Pause/Stop,
 watch the five-state risk assignment in real time, optionally calibrate for
 metric distance, and save the processed output. Reuses the project's
-MonitoringPipeline.
+MonitoringPipeline. Live-camera monitoring is a separate application:
+scripts/live_camera.py.
 
 Launch (from the project root, with the virtual environment active):
     python -m scripts.desktop_app
@@ -47,8 +48,6 @@ class App:
         self.pipeline = None
         self.cap = None
         self.source = None
-        self.is_live = False
-        self.live_needs_pixel = False
         self.worker = None
         self.playing = threading.Event()
         self.stop_flag = threading.Event()
@@ -70,12 +69,11 @@ class App:
         bar = tk.Frame(self.root, pady=6)
         bar.pack(side=tk.TOP, fill=tk.X)
         self.b_open = tk.Button(bar, text="Open Video", width=10, command=self.open_video)
-        self.b_live = tk.Button(bar, text="Live Camera", width=11, command=self.start_live)
         self.b_play = tk.Button(bar, text="Play", width=8, command=self.toggle_play, state=tk.DISABLED)
         self.b_stop = tk.Button(bar, text="Stop", width=8, command=self.stop, state=tk.DISABLED)
         self.b_cal = tk.Button(bar, text="Calibrate", width=9, command=self.start_calibration, state=tk.DISABLED)
         self.b_save = tk.Button(bar, text="Save Output…", width=12, command=self.choose_save)
-        for b in (self.b_open, self.b_live, self.b_play, self.b_stop, self.b_cal, self.b_save):
+        for b in (self.b_open, self.b_play, self.b_stop, self.b_cal, self.b_save):
             b.pack(side=tk.LEFT, padx=4)
 
         self.canvas = tk.Canvas(self.root, width=self.disp_w,
@@ -83,7 +81,7 @@ class App:
         self.canvas.pack(padx=8, pady=8)
         self.canvas.bind("<Button-1>", self.on_canvas_click)
 
-        self.status = tk.Label(self.root, text="Open a video or start the live camera.",
+        self.status = tk.Label(self.root, text="Open a video to begin.",
                                anchor="w", padx=8, pady=4)
         self.status.pack(side=tk.BOTTOM, fill=tk.X)
 
@@ -121,7 +119,6 @@ class App:
         if not path:
             return
         self.stop()
-        self.is_live = False
         self.source = path
         cap = cv2.VideoCapture(path)
         ok, frame = cap.read()
@@ -134,31 +131,6 @@ class App:
         self._draw(self.last_raw)
         self._enable_controls()
         self.set_status(f"Loaded {Path(path).name}. Press Play. (Calibrate for metres.)")
-
-    def start_live(self):
-        self.stop()
-        cap = cv2.VideoCapture(0)
-        ok, frame = (cap.isOpened(), None)
-        if ok:
-            ok, frame = cap.read()
-        cap.release()
-        if not ok:
-            messagebox.showerror(
-                "Camera error",
-                "Could not access the camera.\n\n"
-                "On macOS, allow camera access:\n"
-                "System Settings > Privacy & Security > Camera > enable Terminal\n"
-                "(or your Python launcher), then quit and reopen Terminal and try again.")
-            return
-        self.is_live = True
-        self.source = 0
-        self.live_needs_pixel = True
-        self.last_raw = self._resize(frame)
-        self.canvas.delete("calibdot")
-        self._draw(self.last_raw)
-        self._enable_controls()
-        self.set_status("Live camera ready. Press Play. "
-                        "(Distance shown in pixels; use Calibrate for metres.)")
 
     # ---------------- playback ----------------
     def toggle_play(self):
@@ -174,10 +146,6 @@ class App:
         except Exception as e:
             messagebox.showerror("Model load failed", str(e))
             return
-        if self.is_live and self.live_needs_pixel:
-            # don't apply the (video) homography to the webcam; use pixel mode
-            self.pipeline.distance = DistanceEstimator(None, self.cfg.min_safe_distance_m,
-                                                       self.cfg.fallback_pixel_distance)
         if self.worker is None or not self.worker.is_alive():
             self.stop_flag.clear()
             self.cap = cv2.VideoCapture(self.source)
@@ -186,7 +154,7 @@ class App:
             self.worker.start()
         self.playing.set()
         self.b_play.config(text="Pause")
-        self.set_status("Live…" if self.is_live else "Playing…")
+        self.set_status("Playing…")
 
     def _run(self):
         while not self.stop_flag.is_set():
@@ -243,7 +211,7 @@ class App:
             self.writer.release()
             self.writer = None
         self.b_play.config(text="Play")
-        if self.source is not None and not self.is_live:
+        if self.source is not None:
             cap = cv2.VideoCapture(self.source)
             ok, fr = cap.read()
             cap.release()
@@ -301,7 +269,6 @@ class App:
             return
         self.pipeline.distance = DistanceEstimator(H, self.cfg.min_safe_distance_m,
                                                    self.cfg.fallback_pixel_distance)
-        self.live_needs_pixel = False   # keep this calibration even for live
         self.set_status("Calibrated — distances now in metres. Press Play.")
 
     def on_close(self):

@@ -1,0 +1,32 @@
+Calibration diagnostic report
+Date: 2026-08-27 18:08:26
+Homography: calibration/homography_a4.npy
+Frame size: 1920 x 1080
+
+1. Perspective strength
+   bottom row of H: [5.773246e-04, 6.339481e-03, 1.0000]
+   projective denominator at corners: [1.0, 2.1085, 8.9551, 7.8466]
+   variation across frame: 159.82 %
+   VERDICT: perspective correction present
+
+2. Scale profile down the frame
+   image row y=  162:  0.001249 m/px
+   image row y=  364:  0.000819 m/px
+   image row y=  567:  0.000612 m/px
+   image row y=  769:  0.000489 m/px
+   image row y=  972:  0.000408 m/px
+   far/near ratio: 3.06x
+   VERDICT: scale varies with depth, as expected
+
+3. Recovered calibration region
+   calibration rectangle: 0.297 m x 0.21 m
+   implied clicked points: [[613.0, 629.0], [1122.0, 610.0], [1188.0, 870.0], [527.0, 884.0]]
+   covers 7.3 % of the frame
+   VERDICT: too small - most of the frame is extrapolated
+
+Summary
+   [1] SMALL CALIBRATION REGION: the rectangle covers only 7.3 % of the frame, below the 10 % threshold. Distances measured outside it are extrapolations, and scale error grows with distance from the calibrated region.
+
+   This calibration should not be used for reported metric distances
+   until it is redone against a measured rectangle on the ground plane
+   spanning the region where people are actually tracked.

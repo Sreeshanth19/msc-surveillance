@@ -1,10 +1,15 @@
 # Real-Time Mask & Social-Distance Monitoring
 
-A modular re-implementation for the MSc project *"Deep Learning Based Real-Time
+The experimental platform for the MSc project *"Deep Learning Based Real-Time
 Face Mask Detection and Social Distance Analysis in Surveillance Environments."*
-It keeps the parts of the open-source baseline that work (the trained MobileNetV2
-mask classifier and the OpenCV res10 face detector, both reused unchanged) and
-replaces the parts that don't with methodologically sound components.
+
+The dissertation is an **empirical investigation** into the performance and
+reliability of deep-learning mask classification and calibrated interpersonal
+distance estimation. This prototype is the apparatus through which those
+questions are measured — it is not itself the primary contribution. It keeps the
+parts of the open-source baseline that work (the trained MobileNetV2 mask
+classifier and the OpenCV res10 face detector, both reused unchanged) and
+replaces the parts that would make measurement unsound.
 
 ## How this improves on the baseline
 
@@ -21,8 +26,10 @@ replaces the parts that don't with methodologically sound components.
 
 The single most important change is **metric distance estimation**: a fixed pixel
 threshold is wrong almost everywhere in a perspective view, so the baseline's
-distance flags are unreliable. Calibrating to the ground plane fixes this and is
-the main contribution to defend.
+distance flags cannot be validated against a physical reference at all.
+Calibrating to the ground plane is what makes the distance-accuracy strand of
+the investigation measurable — it turns an unfalsifiable flag into a quantity
+that can be checked against a measured 1.48 m reference.
 
 ## Project structure
 
@@ -101,9 +108,20 @@ pixel threshold, which is useful precisely because it lets you produce a
 
 ## Mapping to the dissertation
 
-- **Chapter 3 (requirements & design):** `src/` module breakdown, `config.yaml`, the comparison table above.
-- **Chapter 4 (implementation):** detector/tracker integration, calibration and homography maths, the privacy stage.
-- **Chapter 5 (testing/validation):** everything under `results/`, the three-tier mask evaluation, the calibration ablation, and the detector benchmarks.
+- **Chapter 3 — Datasets and Experimental Design:** the three image datasets and
+  their differing independence, `config.yaml` as the recorded parameter set, the
+  experimental protocols, and `scripts/` as the procedures that implement them.
+- **Chapter 4 — Results of the Empirical Investigation:** everything under
+  `results/` — the classifier evaluations, the five-backbone comparison, the
+  throughput benchmarks and the calibration measurements.
+- **Chapter 5 — Validation of Results:** `results/dataset/` for the independence
+  screening, `results/calibration/calibration_ablation.txt` for the calibration
+  ablation, `results/model_comparison/colab_t4_crosscheck/` for the second-machine
+  reproduction, and `results/reproducibility_check_2026-08-27/` for the final
+  seven-group check.
+
+`src/` is the platform those procedures run on; it is described where the
+pipeline needs explaining rather than as a deliverable in its own right.
 
 ## Results
 
@@ -158,7 +176,8 @@ five results exactly; MobileNetV2 differed by one image.
 | YOLOv8s | 8.02 | 6.74 |
 | YOLO11s | 7.96 | 7.00 |
 
-All three meet the ≥5 fps requirement. Every one ran **faster on the CPU than on
+All three exceed the 5 fps threshold adopted for this investigation. Every one
+ran **faster on the CPU than on
 the GPU backend** available on the development machine, which is the opposite of
 what is usually assumed at these model sizes.
 
@@ -190,13 +209,21 @@ superseded homography out of git history.
 - Seeded five-backbone comparison, reproduced on separate hardware
 - Detector throughput benchmarked on both compute backends
 - Calibration validated against a measured physical reference; degeneracy diagnostic and full calibration ablation
+- Threshold recalibration measured on BAFMD: macro-F1 recovers from 0.7594 to
+  0.8656 cross-fitted, 92% of the oracle ceiling, with no retraining
+- Final reproducibility check across seven test groups, all values reproducing
+  (`results/reproducibility_check_2026-08-27/`)
 - Every reported figure traceable to the script, command and commit that produced it
 - Version control and this GitHub repository
 
 **Still open:**
 - Detection and tracking accuracy were measured on a single recorded sequence only
 - Perspective correction is validated for absolute scale but not across depth: the reference pair lies at near-constant image depth, so a depth-spanning reference remains future work
-- Unit tests cover the geometric components; the pipeline as a whole is not under test
+- Test coverage is partial: 16 tests over four modules cover the geometry, the
+  calibration diagnostic, the privacy wiring and the overlay, and the privacy
+  tests do exercise the pipeline end to end with stubbed networks. The detector,
+  the legacy detector and the mask classifier are not unit-tested, because their
+  weights are not committed
 - Dissertation write-up in progress
 
 ## Cross-dataset evaluation (BAFMD)

@@ -41,7 +41,7 @@ msc_surveillance/
 ├── src/
 │   ├── config.py             # one typed Config for every parameter
 │   ├── detection.py          # PersonDetector: YOLOv8n + ByteTrack
-│   ├── detection_legacy.py   # inherited YOLOv3 path, retained for comparison
+│   ├── detection_legacy.py   # inherited YOLOv3 path, used only by demo_offline.py
 │   ├── distance.py           # DistanceEstimator: metric (homography) + pixel fallback
 │   ├── calibration.py        # fit the ground-plane homography
 │   ├── mask_classifier.py    # face detection + mask classification (reuses baseline model)
@@ -52,6 +52,7 @@ msc_surveillance/
 │   ├── run.py                     # run on webcam / video / stream (--frame-log for per-frame CSV)
 │   ├── desktop_app.py             # Tkinter application for recorded video
 │   ├── live_camera.py             # live webcam mode
+│   ├── demo_offline.py            # legacy YOLOv3 path, CPU-only, no downloads
 │   ├── calibrate.py               # produce calibration/homography.npy
 │   ├── calibrate_interactive.py   # click reference points on a frame
 │   ├── validate_calibration.py    # measure a calibration against a physical reference

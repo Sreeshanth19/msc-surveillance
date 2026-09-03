@@ -1,6 +1,6 @@
 # Real-Time Mask & Social-Distance Monitoring
 
-This repository holds the experimental platform for the MSc project *"Deep
+This repository includes the experimental platform for the MSc project *"Deep
 Learning Based Real-Time Face Mask Detection and Social Distance Analysis in
 Surveillance Environments."*
 

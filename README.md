@@ -5,7 +5,7 @@ Learning Based Real-Time Face Mask Detection and Social Distance Analysis in
 Surveillance Environments."*
 
 The dissertation is an empirical investigation into the performance and
-reliability of deep-learning mask classification and calibrated interpersonal
+reliability of the deep-learning mask classification and calibrated interpersonal
 distance estimation. The prototype is therefore used as the apparatus through
 which those questions are measured, rather than as the primary contribution in
 its own right. The parts of the open-source baseline that remain sound are

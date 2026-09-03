@@ -1,8 +1,8 @@
 """Regression tests: turning off mask classification must not turn off privacy.
 
-FR-08 requires detected faces to be obscured in displayed and saved output and
-NFR-06 requires that no identifiable facial detail appear there. Neither is
-conditional on FR-03.
+Detected faces must be obscured in displayed and saved output, and no
+identifiable facial detail may appear there. Neither behaviour is conditional on
+mask classification being enabled.
 
 Anonymisation was previously gated on the mask classifier having produced
 results, so building the pipeline with ``enable_mask=False`` left the result

@@ -1,7 +1,7 @@
 """Benchmark processing speed (FPS / per-frame latency).
 
-Throughput is a stated non-functional requirement, so it has to be measured
-rather than estimated. This script runs a fixed number of frames through the
+Throughput is one of the properties this investigation measures, so it has to
+be measured rather than estimated. This script runs a fixed number of frames through the
 full pipeline and reports the rate reproducibly. The hardware must be recorded
 alongside the figures: a frames-per-second number means nothing without the
 machine that produced it.

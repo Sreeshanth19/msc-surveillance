@@ -53,6 +53,7 @@ msc_surveillance/
 │   ├── desktop_app.py             # Tkinter application for recorded video
 │   ├── live_camera.py             # live webcam mode
 │   ├── demo_offline.py            # legacy YOLOv3 path, CPU-only, no downloads
+│   ├── record_calibration_clip.py # capture a short calibration clip from the camera
 │   ├── calibrate.py               # produce calibration/homography.npy
 │   ├── calibrate_interactive.py   # click reference points on a frame
 │   ├── validate_calibration.py    # measure a calibration against a physical reference
@@ -62,9 +63,11 @@ msc_surveillance/
 │   ├── compute_roc_auc.py         # ROC curve and AUC
 │   ├── threshold_sweep.py         # deployed / oracle / cross-fitted decision threshold
 │   ├── check_dataset_overlap.py   # byte-identical overlap between two datasets
+│   ├── check_split_overlap.py     # overlap between the holdout and the comparison split
 │   ├── compare_models.py          # seeded five-backbone comparative study
 │   ├── benchmark_fps.py           # FPS / latency
 │   ├── measure_camera_shift.py    # ECC displacement of the calibrated view
+│   ├── make_figures.py            # build Figures 4.1, 4.2 and 5.1 from results/
 │   ├── prepare_detection_dataset.py
 │   └── train_mask.py
 ├── tests/

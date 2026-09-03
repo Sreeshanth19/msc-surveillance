@@ -79,7 +79,7 @@ class MonitoringPipeline:
         # MaskClassifier owns the face detector, and anonymisation needs face
         # boxes whether or not masks are being classified. Building it for
         # either purpose is what stops disabling classification from also
-        # disabling privacy: FR-08 and NFR-06 are not conditional on FR-03.
+        # disabling privacy: anonymisation is independent of classification.
         # When classification is off, only detect_faces() is called, so no
         # TensorFlow is imported and the classifier is never loaded.
         self.classify_masks = enable_mask

@@ -1,9 +1,9 @@
 """Regression test: the annotated output must carry the track identifier.
 
-FR-04's acceptance criterion is "Mask status appears against the correct
-track identifier in the annotated output", and FR-11 requires the annotated
-video to show "bounding boxes, track identifiers, distances and risk
-states". ``draw_status_boxes`` previously rendered only the risk-state label
+Mask status must appear against the correct track identifier in the annotated
+output, and the annotated video must show bounding boxes, track identifiers,
+distances and risk states. ``draw_status_boxes`` previously rendered only the
+risk-state label
 in each chip, with no track identifier anywhere in the frame - the tracker
 still assigned ``track_id`` and it was used internally (session statistics,
 violation-history keys), but it never reached the pixels written to disk.
